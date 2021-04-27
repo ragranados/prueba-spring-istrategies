@@ -1,6 +1,6 @@
 package com.prueba.istrategiesspring.services;
 
-import com.prueba.istrategiesspring.dto.UsuarioDTO;
+import com.prueba.istrategiesspring.dao.UsuarioDAO;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     @Autowired
-    UsuarioDTO usuarioDTO;
+    UsuarioDAO usuarioDTO;
 
     public ServiceResponse registrarUsuario(Usuario usuario){
         try {

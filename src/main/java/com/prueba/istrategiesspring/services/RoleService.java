@@ -1,6 +1,6 @@
 package com.prueba.istrategiesspring.services;
 
-import com.prueba.istrategiesspring.dto.RoleDTO;
+import com.prueba.istrategiesspring.dao.RoleDAO;
 import com.prueba.istrategiesspring.models.Role;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class RoleService {
     @Autowired
-    private RoleDTO roleDTO;
+    private RoleDAO roleDTO;
 
     public ServiceResponse crearRole(Role role){
         try{
