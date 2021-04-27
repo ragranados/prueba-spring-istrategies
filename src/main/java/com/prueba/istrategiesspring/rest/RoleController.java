@@ -29,5 +29,18 @@ public class RoleController {
         }
     }
 
-    //@GetMapping("")
+    @GetMapping("/listar")
+    public ResponseEntity<?> listar(){
+        try{
+            ServiceResponse serviceResponse = roleService.listarRoles();
+
+            if(!serviceResponse.getStatus()){
+                return ResponseEntity.status(400).body(serviceResponse.getMessage());
+            }
+
+            return  ResponseEntity.ok(serviceResponse.getData());
+        }catch(Exception e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }

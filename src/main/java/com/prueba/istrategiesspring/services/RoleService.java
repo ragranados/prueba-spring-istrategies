@@ -6,6 +6,8 @@ import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService {
     @Autowired
@@ -16,6 +18,20 @@ public class RoleService {
             Role newRole = roleDTO.save(role);
             return new ServiceResponse (true, "Ok", newRole);
         }catch(Exception e){
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ServiceResponse listarRoles(){
+        try {
+            List<Role> roles= roleDTO.findAll();
+
+            if(roles.isEmpty()){
+                return new ServiceResponse(false, "No se obtuvieron resultados", roles);
+            }
+
+            return new ServiceResponse(true, "Ok", roles);
+        }catch (Exception e){
             return new ServiceResponse(false, e.getMessage(), null);
         }
     }
