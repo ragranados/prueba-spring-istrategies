@@ -30,7 +30,7 @@ public class RoleService {
                 return new ServiceResponse(false, "No se obtuvieron resultados", roles);
             }
 
-            return new ServiceResponse(true, "Ok", roles);
+            return new ServiceResponse(true, "Ok    ", roles);
         }catch (Exception e){
             return new ServiceResponse(false, e.getMessage(), null);
         }
