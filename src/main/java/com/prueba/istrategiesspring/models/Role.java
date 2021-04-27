@@ -12,6 +12,12 @@ public class Role {
     @Column
     private String nombre;
 
+    public Role() { }
+
+    public Role(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

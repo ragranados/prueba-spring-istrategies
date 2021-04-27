@@ -21,4 +21,18 @@ public class UsuarioService {
             return new ServiceResponse(false, e.getMessage(), null);
         }
     }
+
+    public ServiceResponse encontrarPorEmail(String email){
+        try {
+            Usuario usuario = usuarioDTO.findByEmail(email);
+
+            if(usuario == null){
+                return new ServiceResponse(false, "Usuario no encontrado", null);
+            }
+
+            return new ServiceResponse(true, "Usuario encontrado con exito", usuario);
+        }catch (Exception e){
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
 }

@@ -3,10 +3,7 @@ package com.prueba.istrategiesspring.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Usuario {
@@ -20,6 +17,13 @@ public class Usuario {
     @Column
     @JsonIgnore
     private String password;
+
+    @Column(name = "enabled", columnDefinition = "boolean default false")
+    private boolean enabled;
+
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private Role role;
 
     public Long getId() {
         return id;
@@ -45,5 +49,21 @@ public class Usuario {
     @JsonProperty
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
