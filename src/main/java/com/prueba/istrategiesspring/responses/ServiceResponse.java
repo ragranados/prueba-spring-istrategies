@@ -18,6 +18,11 @@ public class ServiceResponse {
         this.data = data;
     }
 
+    public ServiceResponse printMessage(){
+        System.out.println(this.message);
+        return this;
+    }
+
     public Boolean getStatus() {
         return status;
     }
