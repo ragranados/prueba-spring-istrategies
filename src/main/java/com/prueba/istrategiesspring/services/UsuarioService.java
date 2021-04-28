@@ -25,6 +25,7 @@ public class UsuarioService {
     public ServiceResponse encontrarPorEmail(String email){
         try {
             Usuario usuario = usuarioDTO.findByEmail(email);
+            System.out.println("Email en servicio " + usuario);
 
             if(usuario == null){
                 return new ServiceResponse(false, "Usuario no encontrado", null);
