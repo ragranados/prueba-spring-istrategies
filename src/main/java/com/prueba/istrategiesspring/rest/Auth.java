@@ -2,12 +2,14 @@ package com.prueba.istrategiesspring.rest;
 
 import com.prueba.istrategiesspring.models.LoginForm;
 import com.prueba.istrategiesspring.models.Usuario;
+import com.prueba.istrategiesspring.responses.LoginResponse;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.UserDetailService;
 import com.prueba.istrategiesspring.services.UsuarioService;
 import com.prueba.istrategiesspring.utils.JwtUtil;
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 @RequestMapping("/auth")
 @RestController
@@ -76,6 +80,17 @@ public class Auth {
 
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(jwt);
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("jwt", jwt);
+        System.out.println(jsonObject);
+
+        return ResponseEntity.ok(new LoginResponse(jwt, (Usuario) serviceResponse.getData()));
+
+        /*HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("jwt", jwt);
+        hashMap.put("user", serviceResponse.getData());
+
+        return ResponseEntity.ok(hashMap);*/
     }
 }
