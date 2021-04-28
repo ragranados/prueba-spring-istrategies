@@ -56,4 +56,18 @@ public class PeliculaService {
             return new ServiceResponse(false, e.getMessage(), null);
         }
     }
+
+    public ServiceResponse obtenerPeliculaPorNombre(String titulo){
+        try {
+            List<Pelicula> peliculas = peliculaDAO.findByTitulo(titulo);
+
+            if(peliculas.isEmpty()){
+                return new ServiceResponse(false, "No se obtuveron resultados", peliculas);
+            }
+
+            return new ServiceResponse(true, "Ok", peliculas);
+        } catch (Exception e) {
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
 }
