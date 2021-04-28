@@ -5,6 +5,7 @@ import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/guardar")
     public ResponseEntity<?> guardar(@RequestBody Role role){
         try{

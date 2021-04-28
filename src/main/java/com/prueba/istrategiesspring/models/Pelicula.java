@@ -21,8 +21,8 @@ public class Pelicula {
     @Column
     private String imagen;
 
-    @Column
-    private Integer stock;
+    @Column(columnDefinition = "INT default 0")
+    private int stock;
 
     @Column
     private Float precioAlquiler;
