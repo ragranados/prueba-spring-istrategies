@@ -43,6 +43,20 @@ public class PeliculaService {
         }
     }
 
+    public ServiceResponse obtenerPeliculasDisponibles(){
+        try {
+            List<Pelicula> peliculas = peliculaDAO.disponibles();
+
+            if(peliculas.isEmpty()){
+                return new ServiceResponse(false, "No se obtuvieron resultados", peliculas);
+            }
+
+            return new ServiceResponse(true, "Ok", peliculas);
+        } catch (Exception e) {
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
     public ServiceResponse obtenerPeliculaPorId(Long id){
         try {
             Optional<Pelicula> pelicula = peliculaDAO.findById(id);
@@ -51,7 +65,7 @@ public class PeliculaService {
                 return new ServiceResponse(false, "No se obtuvieron resultados", null);
             }
 
-            return new ServiceResponse(true, "Ok", pelicula);
+            return new ServiceResponse(true, "Ok", pelicula.get());
         } catch (Exception e) {
             return new ServiceResponse(false, e.getMessage(), null);
         }
@@ -66,6 +80,18 @@ public class PeliculaService {
             }
 
             return new ServiceResponse(true, "Ok", peliculas);
+        } catch (Exception e) {
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ServiceResponse cambiarDisponibilidad (Pelicula nPelicula,boolean disponibilidad){
+        nPelicula.setDisponible(disponibilidad);
+
+        try {
+            Pelicula pelicula = peliculaDAO.save(nPelicula);
+
+            return new ServiceResponse(true, "Disponibilidad actualizada con exito", pelicula);
         } catch (Exception e) {
             return new ServiceResponse(false, e.getMessage(), null);
         }

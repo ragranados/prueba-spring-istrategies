@@ -14,4 +14,6 @@ public interface PeliculaDAO extends JpaRepository<Pelicula, Long> {
     @Query("FROM Pelicula WHERE titulo like '%?1%'")
     List<Pelicula> findByTitulo (@Param("titulo") String titulo);
 
+    @Query("FROM Pelicula WHERE disponible = true")
+    List<Pelicula> disponibles();
 }
