@@ -1,8 +1,11 @@
 package com.prueba.istrategiesspring.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
+@JsonIgnoreProperties({})
 @Entity
 public class Pelicula {
 
@@ -33,6 +36,9 @@ public class Pelicula {
 
     @OneToMany(targetEntity = RegistroActualizacionesPelicula.class, mappedBy = "pelicula", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RegistroActualizacionesPelicula> registroActualizaciones;
+
+    @ManyToMany(mappedBy = "peliculas")
+    private List<Compra> compras;
 
     public Long getId() {
         return id;
