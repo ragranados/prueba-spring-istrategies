@@ -114,6 +114,11 @@ public class PeliculaService {
 
             if(!nPelicula.getPrecioCompra().equals(pelicula.get().getPrecioCompra())  || !nPelicula.getPrecioAlquiler().equals(pelicula.get().getPrecioAlquiler()) || !nPelicula.getTitulo().equals(pelicula.get().getTitulo())){
                 RegistroActualizacionesPelicula registroActualizacionesPelicula = new RegistroActualizacionesPelicula();
+
+                registroActualizacionesPelicula.setPrecioAlquilerAnterior(pelicula.get().getPrecioAlquiler());
+                registroActualizacionesPelicula.setPrecioCompraAnterior(pelicula.get().getPrecioCompra());
+                registroActualizacionesPelicula.setTituloAnterior(pelicula.get().getTitulo());
+
                 registroActualizacionesPelicula.setPelicula(pelicula.get());
                 registroActualizacionesPelicula.setPrecioAlquiler(nPelicula.getPrecioAlquiler());
                 registroActualizacionesPelicula.setTitulo(nPelicula.getTitulo());

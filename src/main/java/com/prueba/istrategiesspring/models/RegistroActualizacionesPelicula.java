@@ -14,6 +14,15 @@ public class RegistroActualizacionesPelicula {
     private Long id;
 
     @Column
+    private String tituloAnterior;
+
+    @Column
+    private Float precioAlquilerAnterior;
+
+    @Column
+    private Float precioCompraAnterior;
+
+    @Column
     private String titulo;
 
     @Column
@@ -32,6 +41,30 @@ public class RegistroActualizacionesPelicula {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTituloAnterior() {
+        return tituloAnterior;
+    }
+
+    public void setTituloAnterior(String tituloAnterior) {
+        this.tituloAnterior = tituloAnterior;
+    }
+
+    public Float getPrecioAlquilerAnterior() {
+        return precioAlquilerAnterior;
+    }
+
+    public void setPrecioAlquilerAnterior(Float precioAlquilerAnterior) {
+        this.precioAlquilerAnterior = precioAlquilerAnterior;
+    }
+
+    public Float getPrecioCompraAnterior() {
+        return precioCompraAnterior;
+    }
+
+    public void setPrecioCompraAnterior(Float precioCompraAnterior) {
+        this.precioCompraAnterior = precioCompraAnterior;
     }
 
     public String getTitulo() {
