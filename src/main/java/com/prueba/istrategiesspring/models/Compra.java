@@ -30,5 +30,35 @@ public class Compra {
     @Column
     private LocalDate fechaCompra;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Pelicula> getPeliculas() {
+        return peliculas;
+    }
+
+    public void setPeliculas(List<Pelicula> peliculas) {
+        this.peliculas = peliculas;
+    }
+
+    public Transaccion getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(Transaccion transaccion) {
+        this.transaccion = transaccion;
+    }
+
+    public LocalDate getFechaCompra() {
+        return fechaCompra;
+    }
+
+    public void setFechaCompra(LocalDate fechaCompra) {
+        this.fechaCompra = fechaCompra;
+    }
 }

@@ -21,5 +21,28 @@ public class Transaccion {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Nullable
+    public Compra getCompra() {
+        return compra;
+    }
+
+    public void setCompra(@Nullable Compra compra) {
+        this.compra = compra;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

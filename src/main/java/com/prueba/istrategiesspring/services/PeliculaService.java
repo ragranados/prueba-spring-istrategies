@@ -77,6 +77,21 @@ public class PeliculaService {
         }
     }
 
+    public ServiceResponse obtenerMultiplesPorId(List<Long> ids){
+        try {
+            List<Pelicula> peliculas = peliculaDAO.findAllById(ids);
+
+            if(peliculas.isEmpty()){
+                return new ServiceResponse(false, "No hay resultados", null);
+            }
+
+            return new ServiceResponse(true, "Resultados", peliculas);
+        } catch (Exception e) {
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+
+    }
+
     public ServiceResponse obtenerPeliculaPorNombre(String titulo){
         try {
             List<Pelicula> peliculas = peliculaDAO.findByTitulo(titulo);

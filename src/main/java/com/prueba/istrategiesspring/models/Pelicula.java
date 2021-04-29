@@ -111,4 +111,12 @@ public class Pelicula {
     public void setRegistroActualizaciones(List<RegistroActualizacionesPelicula> registroActualizaciones) {
         this.registroActualizaciones = registroActualizaciones;
     }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
+    }
 }
