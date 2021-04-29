@@ -1,10 +1,13 @@
 package com.prueba.istrategiesspring.services;
 
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
+import com.prueba.istrategiesspring.dao.RegistroActualizacionesPeliculaDAO;
 import com.prueba.istrategiesspring.models.Pelicula;
+import com.prueba.istrategiesspring.models.RegistroActualizacionesPelicula;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,9 @@ public class PeliculaService {
 
     @Autowired
     private PeliculaDAO peliculaDAO;
+
+    @Autowired
+    private RegistroActualizacionesPeliculaDAO registroActualizacionesPeliculaDAO;
 
     public ServiceResponse crearPelicula(Pelicula pelicula){
         try{
@@ -92,6 +98,33 @@ public class PeliculaService {
             Pelicula pelicula = peliculaDAO.save(nPelicula);
 
             return new ServiceResponse(true, "Disponibilidad actualizada con exito", pelicula);
+        } catch (Exception e) {
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    @Transactional
+    public ServiceResponse actualizarPelicula (Pelicula nPelicula){
+        try {
+            Optional<Pelicula> pelicula = peliculaDAO.findById(nPelicula.getId());
+
+            if(!pelicula.isPresent()){
+                return new ServiceResponse(false, "Pelicula no encontrada", null);
+            }
+
+            if(!nPelicula.getPrecioCompra().equals(pelicula.get().getPrecioCompra())  || !nPelicula.getPrecioAlquiler().equals(pelicula.get().getPrecioAlquiler()) || !nPelicula.getTitulo().equals(pelicula.get().getTitulo())){
+                RegistroActualizacionesPelicula registroActualizacionesPelicula = new RegistroActualizacionesPelicula();
+                registroActualizacionesPelicula.setPelicula(pelicula.get());
+                registroActualizacionesPelicula.setPrecioAlquiler(nPelicula.getPrecioAlquiler());
+                registroActualizacionesPelicula.setTitulo(nPelicula.getTitulo());
+                registroActualizacionesPelicula.setPrecioCompra(nPelicula.getPrecioCompra());
+
+                registroActualizacionesPeliculaDAO.save(registroActualizacionesPelicula);
+            }
+
+            peliculaDAO.save(nPelicula);
+
+            return new ServiceResponse(true, "Campos actualizados con exito", nPelicula);
         } catch (Exception e) {
             return new ServiceResponse(false, e.getMessage(), null);
         }

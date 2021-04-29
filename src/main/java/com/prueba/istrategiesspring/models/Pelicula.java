@@ -1,9 +1,7 @@
 package com.prueba.istrategiesspring.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Pelicula {
@@ -32,6 +30,9 @@ public class Pelicula {
 
     @Column
     private boolean disponible;
+
+    @OneToMany(targetEntity = RegistroActualizacionesPelicula.class, mappedBy = "pelicula", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RegistroActualizacionesPelicula> registroActualizaciones;
 
     public Long getId() {
         return id;
@@ -95,5 +96,13 @@ public class Pelicula {
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
+    }
+
+    public List<RegistroActualizacionesPelicula> getRegistroActualizaciones() {
+        return registroActualizaciones;
+    }
+
+    public void setRegistroActualizaciones(List<RegistroActualizacionesPelicula> registroActualizaciones) {
+        this.registroActualizaciones = registroActualizaciones;
     }
 }

@@ -46,6 +46,22 @@ public class PeliculaController {
     }
 
     @Secured({"ROLE_ADMIN"})
+    @PutMapping("/actualizar")
+    public ResponseEntity actualizar(@RequestBody Pelicula pelicula){
+        try {
+            ServiceResponse serviceResponse = peliculaService.actualizarPelicula(pelicula);
+
+            if(!serviceResponse.getStatus()){
+                return ResponseEntity.status(400).body(serviceResponse.getMessage());
+            }
+
+            return ResponseEntity.ok("Datos actualizados con exito");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping("/cambiarDisponibilidad/{id}")
     public ResponseEntity cambiarDisponibilidad(@PathVariable(value = "id") Long id, @RequestBody boolean disponibilidad){
         try {
