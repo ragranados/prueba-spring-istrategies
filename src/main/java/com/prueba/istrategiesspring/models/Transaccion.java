@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @JsonIgnoreProperties({"usuario"})
 @Entity
@@ -20,6 +21,9 @@ public class Transaccion {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @Column
+    private LocalDate fecha;
 
     public Long getId() {
         return id;
@@ -44,5 +48,13 @@ public class Transaccion {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 }

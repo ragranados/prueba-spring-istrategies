@@ -30,9 +30,11 @@ public class TransaccionService {
     @Transactional
     public ServiceResponse crearTransaccion(Usuario usuario, List<Long> compras){
         try {
+            LocalDate date = LocalDate.now();
 
             Transaccion nTrsansaccion = new Transaccion();
             nTrsansaccion.setUsuario(usuario);
+            nTrsansaccion.setFecha(date);
             Transaccion inserted = transaccionDAO.save(nTrsansaccion);
 
             if(inserted == null){
@@ -40,7 +42,7 @@ public class TransaccionService {
             }
 
             Compra nCompra = new Compra();
-            nCompra.setFechaCompra(LocalDate.now());
+            nCompra.setFechaCompra(date);
             nCompra.setTransaccion(nTrsansaccion);
             nCompra.setPeliculas(peliculaDAO.findAllById(compras));
 
