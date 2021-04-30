@@ -56,7 +56,8 @@ public class TransaccionService {
             Transaccion inserted = transaccionDAO.save(nTrsansaccion);
 
             if(inserted == null){
-                return new ServiceResponse(false, "No se ha podido crear la transaccion", null);
+                throw new RuntimeException("No se ha podido crear la transaccion");
+                //return new ServiceResponse(false, "No se ha podido crear la transaccion", null);
             }
 
             Compra nCompra = new Compra();
