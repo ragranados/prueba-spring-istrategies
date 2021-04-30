@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface TransaccionDAO extends JpaRepository<Transaccion, Long> {
 
-    @Query("FROM Transaccion  WHERE usuario = ?1 ORDER BY id")
+    @Query("FROM Transaccion  WHERE usuario.id = ?1 ORDER BY id")
     List<Transaccion> findByIdUsuario(@Param("usuario") Long usuario);
 }
