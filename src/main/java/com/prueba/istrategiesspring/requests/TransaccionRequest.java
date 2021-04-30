@@ -11,7 +11,7 @@ public class TransaccionRequest {
 
     private List<Long> compras;
 
-    //private List<Alquiler> alquiler;
+    private List<Long> alquiler;
 
     public List<Long> getCompras() {
         return compras;
@@ -19,5 +19,13 @@ public class TransaccionRequest {
 
     public void setCompras(List<Long> compras) {
         this.compras = compras;
+    }
+
+    public List<Long> getAlquiler() { 
+        return alquiler;
+    }
+
+    public void setAlquiler(List<Long> alquiler) {
+        this.alquiler = alquiler;
     }
 }

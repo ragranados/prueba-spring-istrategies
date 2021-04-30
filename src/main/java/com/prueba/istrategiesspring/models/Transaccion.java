@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @JsonIgnoreProperties({"usuario"})
 @Entity
@@ -20,6 +21,9 @@ public class Transaccion {
     @Nullable
     @OneToOne(mappedBy = "transaccion")
     private Compra compra;
+
+    @OneToMany(mappedBy = "transaccion")
+    private List<Alquiler> alquiler;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -51,6 +55,14 @@ public class Transaccion {
 
     public void setCompra(@Nullable Compra compra) {
         this.compra = compra;
+    }
+
+    public List<Alquiler> getAlquiler() {
+        return alquiler;
+    }
+
+    public void setAlquiler(List<Alquiler> alquiler) {
+        this.alquiler = alquiler;
     }
 
     public Usuario getUsuario() {

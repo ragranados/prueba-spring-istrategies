@@ -41,7 +41,7 @@ public class TransaccionController {
 
             Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
 
-            ServiceResponse serviceResponse = transaccionService.crearTransaccion(usuario,transaccionRequest.getCompras());
+            ServiceResponse serviceResponse = transaccionService.crearTransaccion(usuario,transaccionRequest.getCompras(), transaccionRequest.getAlquiler());
 
             return ResponseEntity.ok("Transaccion realizada con exito");
         } catch (Exception e) {

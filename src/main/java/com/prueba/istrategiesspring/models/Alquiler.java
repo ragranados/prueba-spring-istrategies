@@ -1,12 +1,15 @@
 package com.prueba.istrategiesspring.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
-//@Entity
+@JsonIgnoreProperties({"transaccion"})
+@Entity
 public class Alquiler {
 
-    /*@Id
+    @Id
     @GeneratedValue
     private Long id;
 
@@ -22,7 +25,45 @@ public class Alquiler {
     private LocalDate fechaAlquiler;
 
     @Column
-    private LocalDate fechaDevolucion;*/
+    private LocalDate fechaDevolucion;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Pelicula getPelicula() {
+        return pelicula;
+    }
+
+    public void setPelicula(Pelicula pelicula) {
+        this.pelicula = pelicula;
+    }
+
+    public Transaccion getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(Transaccion transaccion) {
+        this.transaccion = transaccion;
+    }
+
+    public LocalDate getFechaAlquiler() {
+        return fechaAlquiler;
+    }
+
+    public void setFechaAlquiler(LocalDate fechaAlquiler) {
+        this.fechaAlquiler = fechaAlquiler;
+    }
+
+    public LocalDate getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(LocalDate fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
 }
