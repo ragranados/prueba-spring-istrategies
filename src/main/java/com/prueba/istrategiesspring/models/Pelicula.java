@@ -34,6 +34,18 @@ public class Pelicula {
     @OneToMany(targetEntity = RegistroActualizacionesPelicula.class, mappedBy = "pelicula", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RegistroActualizacionesPelicula> registroActualizaciones;
 
+    public Pelicula() { }
+
+    public Pelicula(String titulo, String descripcion, String imagen, int stock, Float precioAlquiler, Float precioCompra, boolean disponible) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.stock = stock;
+        this.precioAlquiler = precioAlquiler;
+        this.precioCompra = precioCompra;
+        this.disponible = disponible;
+    }
+
     public Long getId() {
         return id;
     }
