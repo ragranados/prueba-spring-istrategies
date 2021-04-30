@@ -3,12 +3,17 @@ package com.prueba.istrategiesspring.rest;
 import com.prueba.istrategiesspring.models.Compra;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Transaccion;
+import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.requests.TransaccionRequest;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.PeliculaService;
 import com.prueba.istrategiesspring.services.TransaccionService;
+import com.prueba.istrategiesspring.services.UserDetailService;
+import com.prueba.istrategiesspring.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,23 +32,25 @@ public class TransaccionController {
     @Autowired
     private PeliculaService peliculaService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @PostMapping
     @RequestMapping("/guardar")
     public ResponseEntity guardar(@RequestBody TransaccionRequest transaccionRequest){
 
         try {
-            ServiceResponse serviceResponse = transaccionService.crearTransaccion(new Transaccion());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+            Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
 
-            Transaccion nTransaccion = (Transaccion) serviceResponse.getData();
-            Compra compra = new Compra();
-            compra.setTransaccion(nTransaccion);
-            List<Pelicula> peliculaList =(List<Pelicula>) peliculaService.obtenerMultiplesPorId(transaccionRequest.getCompras()).getData();
-            compra.setPeliculas(peliculaList);
-            nTransaccion.setCompra(compra);
-            return ResponseEntity.ok(transaccionRequest.getCompras());
+            ServiceResponse serviceResponse = transaccionService.crearTransaccion(usuario,transaccionRequest.getCompras());
+
+            return ResponseEntity.ok("Transaccion realizada con exito");
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+
 }
