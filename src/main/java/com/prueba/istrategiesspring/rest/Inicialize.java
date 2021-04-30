@@ -37,6 +37,7 @@ public class Inicialize {
                     "Chihiro se adentra en un mundo magico reinado por una bruja, donde quienes no obedecen son transformados en animales.",
                     "URL imagen",
                     0,
+                    0,
                     2.50f,
                     20.00f,
                     true
@@ -46,6 +47,7 @@ public class Inicialize {
                     "Rescatando al soldado Ryan",
                     "Ocho soldados arriesgan su vida en territorio aleman durante la Segunda Guerra Mundial para buscar a un soldado y regresarlo a casa.",
                     "URL imagen",
+                    0,
                     0,
                     2.50f,
                     20.00f,

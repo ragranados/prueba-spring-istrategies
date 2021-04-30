@@ -23,7 +23,10 @@ public class Pelicula {
     private String imagen;
 
     @Column(columnDefinition = "INT default 0")
-    private int stock;
+    private int stockAlquiler;
+
+    @Column(columnDefinition = "INT default 0")
+    private int stockCompra;
 
     @Column
     private Float precioAlquiler;
@@ -39,15 +42,17 @@ public class Pelicula {
 
     public Pelicula() { }
 
-    public Pelicula(String titulo, String descripcion, String imagen, int stock, Float precioAlquiler, Float precioCompra, boolean disponible) {
+    public Pelicula(String titulo, String descripcion, String imagen, int stockAlquiler, int stockCompra, Float precioAlquiler, Float precioCompra, boolean disponible) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.imagen = imagen;
-        this.stock = stock;
+        this.stockAlquiler = stockAlquiler;
+        this.stockCompra = stockCompra;
         this.precioAlquiler = precioAlquiler;
         this.precioCompra = precioCompra;
         this.disponible = disponible;
     }
+
     @ManyToMany(mappedBy = "peliculas")
     private List<Compra> compras;
 
@@ -83,12 +88,20 @@ public class Pelicula {
         this.imagen = imagen;
     }
 
-    public Integer getStock() {
-        return stock;
+    public int getStockAlquiler() {
+        return stockAlquiler;
     }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setStockAlquiler(int stockAlquiler) {
+        this.stockAlquiler = stockAlquiler;
+    }
+
+    public int getStockCompra() {
+        return stockCompra;
+    }
+
+    public void setStockCompra(int stockCompra) {
+        this.stockCompra = stockCompra;
     }
 
     public Float getPrecioAlquiler() {
