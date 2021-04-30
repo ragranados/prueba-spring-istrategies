@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -24,6 +25,9 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name="role_id")
     private Role role;
+
+    @OneToMany(targetEntity = Transaccion.class, mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Transaccion> transacciones;
 
     public Long getId() {
         return id;

@@ -1,8 +1,11 @@
 package com.prueba.istrategiesspring.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
+@JsonIgnoreProperties({"compras"})
 @Entity
 public class Pelicula {
 
@@ -45,6 +48,8 @@ public class Pelicula {
         this.precioCompra = precioCompra;
         this.disponible = disponible;
     }
+    @ManyToMany(mappedBy = "peliculas")
+    private List<Compra> compras;
 
     public Long getId() {
         return id;
@@ -116,5 +121,13 @@ public class Pelicula {
 
     public void setRegistroActualizaciones(List<RegistroActualizacionesPelicula> registroActualizaciones) {
         this.registroActualizaciones = registroActualizaciones;
+    }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
     }
 }
