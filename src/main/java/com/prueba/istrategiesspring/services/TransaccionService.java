@@ -32,9 +32,6 @@ public class TransaccionService {
     private AlquilerDAO alquilerDAO;
 
     private Float calcularTotal(List<Pelicula> compras, List<Pelicula> alquiler) {
-        /*List<Pelicula> array = new ArrayList<>();
-        array.addAll(alquiler);
-        array.addAll(compras);*/
 
         Float total = 0f;
         for (int i = 0; i < compras.size(); i++) {
@@ -80,10 +77,13 @@ public class TransaccionService {
         try {
             validarStock(compras, alquiler);
 
-            List<Pelicula> peliculasCompra = peliculaDAO.findAllById(compras);
-            List<Pelicula> peliculasAlquiler = peliculaDAO.findAllById(alquiler);
+            List<Pelicula> peliculasCompra = new ArrayList<>();
+            List<Pelicula> peliculasAlquiler = new ArrayList<>();
 
-            Float total = calcularTotal(peliculasAlquiler, peliculasCompra);
+            if (!compras.isEmpty()) peliculasCompra = peliculaDAO.findAllById(compras);
+            if (!alquiler.isEmpty()) peliculasAlquiler = peliculaDAO.findAllById(alquiler);
+
+            Float total = calcularTotal(peliculasCompra, peliculasAlquiler);
             LocalDate date = LocalDate.now();
 
             Transaccion nTrsansaccion = new Transaccion();
@@ -99,7 +99,7 @@ public class TransaccionService {
 
             List<Alquiler> nAlquilerArray = new ArrayList<>();
 
-            for(int i = 0; i < alquiler.size(); i++){
+            for (int i = 0; i < alquiler.size(); i++) {
                 Alquiler nAlquiler = new Alquiler();
 
                 nAlquiler.setFechaAlquiler(date);
@@ -110,12 +110,15 @@ public class TransaccionService {
                 nAlquilerArray.add(nAlquiler);
             }
 
-            Compra nCompra = new Compra();
-            nCompra.setFechaCompra(date);
-            nCompra.setTransaccion(nTrsansaccion);
-            nCompra.setPeliculas(peliculaDAO.findAllById(compras));
+            if (!compras.isEmpty()) {
+                Compra nCompra = new Compra();
+                nCompra.setFechaCompra(date);
+                nCompra.setTransaccion(nTrsansaccion);
+                nCompra.setPeliculas(peliculaDAO.findAllById(compras));
 
-            compraDAO.save(nCompra);
+                compraDAO.save(nCompra);
+            }
+
             alquilerDAO.saveAll(nAlquilerArray);
 
             return new ServiceResponse(true, "Transaccion realizada con exito", nTrsansaccion);
