@@ -41,7 +41,14 @@ public class TransaccionService {
 
             for(int i = 0; i < compras.size();i++){
                 Optional<Pelicula> pelicula = peliculaDAO.findById(compras.get(i));
+
+                if(pelicula.get().getStockCompra() < 1 || !pelicula.get().isDisponible()){
+                    throw new RuntimeException("La pelicula " + pelicula.get().getTitulo() + " no se encuentra disponible");
+                }
+
                 total += pelicula.get().getPrecioCompra();
+
+                pelicula.get().setStockCompra(pelicula.get().getStockCompra() - 1);
             }
 
             nTrsansaccion.setPrecioTotal(total);
