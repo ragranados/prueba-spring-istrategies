@@ -4,6 +4,7 @@ import com.prueba.istrategiesspring.dao.CompraDAO;
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
 import com.prueba.istrategiesspring.dao.TransaccionDAO;
 import com.prueba.istrategiesspring.models.Compra;
+import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Transaccion;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -30,11 +32,20 @@ public class TransaccionService {
     @Transactional
     public ServiceResponse crearTransaccion(Usuario usuario, List<Long> compras){
         try {
+            Float total = 0f;
             LocalDate date = LocalDate.now();
 
             Transaccion nTrsansaccion = new Transaccion();
             nTrsansaccion.setUsuario(usuario);
             nTrsansaccion.setFecha(date);
+
+            for(int i = 0; i < compras.size();i++){
+                Optional<Pelicula> pelicula = peliculaDAO.findById(compras.get(i));
+                total += pelicula.get().getPrecioCompra();
+            }
+
+            nTrsansaccion.setPrecioTotal(total);
+
             Transaccion inserted = transaccionDAO.save(nTrsansaccion);
 
             if(inserted == null){

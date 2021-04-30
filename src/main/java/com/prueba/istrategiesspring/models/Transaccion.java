@@ -14,6 +14,9 @@ public class Transaccion {
     @GeneratedValue
     private Long id;
 
+    @Column
+    private Float precioTotal;
+
     @Nullable
     @OneToOne(mappedBy = "transaccion")
     private Compra compra;
@@ -31,6 +34,14 @@ public class Transaccion {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Float getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(Float precioTotal) {
+        this.precioTotal = precioTotal;
     }
 
     @Nullable
