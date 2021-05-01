@@ -34,14 +34,14 @@ public class TransaccionController {
 
     @PostMapping
     @RequestMapping("/guardar")
-    public ResponseEntity guardar(@RequestBody TransaccionRequest transaccionRequest){
+    public ResponseEntity guardar(@RequestBody TransaccionRequest transaccionRequest) {
 
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
 
-            ServiceResponse serviceResponse = transaccionService.crearTransaccion(usuario,transaccionRequest.getCompras(), transaccionRequest.getAlquiler());
+            ServiceResponse serviceResponse = transaccionService.crearTransaccion(usuario, transaccionRequest.getCompras(), transaccionRequest.getAlquiler());
 
             return ResponseEntity.ok("Transaccion realizada con exito");
         } catch (Exception e) {
@@ -51,19 +51,16 @@ public class TransaccionController {
 
     @GetMapping
     @RequestMapping("/transacciones/me")
-
-    public ResponseEntity obtenerMisTransacciones(){
+    public ResponseEntity obtenerMisTransacciones() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
 
             ServiceResponse serviceResponse = transaccionService.obtenerTransaccionesPorIdUsuario(usuario.getId());
 
-            if(!serviceResponse.getStatus()){
+            if (!serviceResponse.getStatus()) {
                 return ResponseEntity.status(400).body(serviceResponse.getMessage());
             }
-
-            //List<Transaccion> transaccions = (List<Transaccion>) serviceResponse.getData();
 
             return ResponseEntity.ok(serviceResponse.getData());
         } catch (Exception e) {

@@ -21,6 +21,9 @@ public class Alquiler {
     @JoinColumn(name = "transaccion_id")
     private Transaccion transaccion;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean devuelto;
+
     @Column
     private LocalDate fechaAlquiler;
 
@@ -49,6 +52,14 @@ public class Alquiler {
 
     public void setTransaccion(Transaccion transaccion) {
         this.transaccion = transaccion;
+    }
+
+    public boolean isDevuelto() {
+        return devuelto;
+    }
+
+    public void setDevuelto(boolean devuelto) {
+        this.devuelto = devuelto;
     }
 
     public LocalDate getFechaAlquiler() {
