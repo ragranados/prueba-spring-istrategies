@@ -3,10 +3,9 @@ package com.prueba.istrategiesspring.services;
 import com.prueba.istrategiesspring.dao.AlquilerDAO;
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
 import com.prueba.istrategiesspring.dao.RegistroAlquilerDAO;
-import com.prueba.istrategiesspring.dto.AlquilerDTO;
 import com.prueba.istrategiesspring.models.Alquiler;
 import com.prueba.istrategiesspring.models.Pelicula;
-import com.prueba.istrategiesspring.models.RegistroAlquiler;
+import com.prueba.istrategiesspring.models.Registro;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,13 +88,13 @@ public class AlquierService {
 
     public ServiceResponse registroAlquiler(){
         try {
-            List<RegistroAlquiler> registroAlquilerList = registroAlquilerDAO.findAll();
+            List<Registro> registroList = registroAlquilerDAO.encontrarPorTipo("alquiler");
 
-            if(registroAlquilerList.isEmpty()){
+            if(registroList.isEmpty()){
                 return new ServiceResponse(false, "No se encontraron resultados", null);
             }
 
-            return new ServiceResponse(true, "Ok", registroAlquilerList);
+            return new ServiceResponse(true, "Ok", registroList);
         } catch (Exception e) {
             return new ServiceResponse(false, e.getMessage(), null);
         }

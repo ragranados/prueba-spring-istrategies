@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @JsonIgnoreProperties("transaccion")
 @Entity
-public class RegistroAlquiler {
+public class Registro {
 
     @Id
     @GeneratedValue
@@ -26,6 +26,9 @@ public class RegistroAlquiler {
 
     @Column
     private int numeroPeliculas;
+
+    @Column
+    private String tipo;
 
     public Long getId() {
         return id;
@@ -65,5 +68,13 @@ public class RegistroAlquiler {
 
     public void setNumeroPeliculas(int numeroPeliculas) {
         this.numeroPeliculas = numeroPeliculas;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

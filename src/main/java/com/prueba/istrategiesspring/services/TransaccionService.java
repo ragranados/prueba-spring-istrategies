@@ -31,15 +31,30 @@ public class TransaccionService {
     @Autowired
     private RegistroAlquilerDAO registroAlquilerDAO;
 
-    private void registroAlquiler(LocalDate fecha, List<Long> alquiler, Transaccion transaccion, Usuario usuario){
-        RegistroAlquiler registroAlquiler = new RegistroAlquiler();
+    private void registroAlquiler(LocalDate fecha, List<Long> alquiler, List<Long> compra,Transaccion transaccion, Usuario usuario){
+        if(!alquiler.isEmpty()){
+            Registro registro = new Registro();
 
-        registroAlquiler.setTransaccion(transaccion);
-        registroAlquiler.setFecha(fecha);
-        registroAlquiler.setUsuario(usuario);
-        registroAlquiler.setNumeroPeliculas(alquiler.size());
+            registro.setTransaccion(transaccion);
+            registro.setFecha(fecha);
+            registro.setUsuario(usuario);
+            registro.setNumeroPeliculas(alquiler.size());
+            registro.setTipo("alquiler");
 
-        registroAlquilerDAO.save(registroAlquiler);
+            registroAlquilerDAO.save(registro);
+        }
+
+        if(!compra.isEmpty()){
+            Registro registro1 = new Registro();
+
+            registro1.setTransaccion(transaccion);
+            registro1.setFecha(fecha);
+            registro1.setUsuario(usuario);
+            registro1.setNumeroPeliculas(compra.size());
+            registro1.setTipo("compra");
+
+            registroAlquilerDAO.save(registro1);
+        }
 
     }
 
@@ -130,7 +145,7 @@ public class TransaccionService {
 
                 compraDAO.save(nCompra);
             }
-            registroAlquiler(date, alquiler, nTrsansaccion,usuario);
+            registroAlquiler(date, alquiler, compras,nTrsansaccion,usuario);
             alquilerDAO.saveAll(nAlquilerArray);
 
             return new ServiceResponse(true, "Transaccion realizada con exito", nTrsansaccion);
