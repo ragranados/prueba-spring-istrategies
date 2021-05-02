@@ -1,9 +1,6 @@
 package com.prueba.istrategiesspring.services;
 
-import com.prueba.istrategiesspring.dao.AlquilerDAO;
-import com.prueba.istrategiesspring.dao.CompraDAO;
-import com.prueba.istrategiesspring.dao.PeliculaDAO;
-import com.prueba.istrategiesspring.dao.TransaccionDAO;
+import com.prueba.istrategiesspring.dao.*;
 import com.prueba.istrategiesspring.models.*;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,21 @@ public class TransaccionService {
 
     @Autowired
     private AlquilerDAO alquilerDAO;
+
+    @Autowired
+    private RegistroAlquilerDAO registroAlquilerDAO;
+
+    private void registroAlquiler(LocalDate fecha, List<Long> alquiler, Transaccion transaccion, Usuario usuario){
+        RegistroAlquiler registroAlquiler = new RegistroAlquiler();
+
+        registroAlquiler.setTransaccion(transaccion);
+        registroAlquiler.setFecha(fecha);
+        registroAlquiler.setUsuario(usuario);
+        registroAlquiler.setNumeroPeliculas(alquiler.size());
+
+        registroAlquilerDAO.save(registroAlquiler);
+
+    }
 
     private Float calcularTotal(List<Pelicula> compras, List<Pelicula> alquiler) {
 
@@ -118,7 +130,7 @@ public class TransaccionService {
 
                 compraDAO.save(nCompra);
             }
-
+            registroAlquiler(date, alquiler, nTrsansaccion,usuario);
             alquilerDAO.saveAll(nAlquilerArray);
 
             return new ServiceResponse(true, "Transaccion realizada con exito", nTrsansaccion);
