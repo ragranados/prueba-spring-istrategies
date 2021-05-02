@@ -1,11 +1,15 @@
 package com.prueba.istrategiesspring.rest;
 
 import com.prueba.istrategiesspring.models.Pelicula;
+import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.PeliculaService;
+import com.prueba.istrategiesspring.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class PeliculaController {
     @Autowired
     private PeliculaService peliculaService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/guardar")
@@ -81,5 +88,30 @@ public class PeliculaController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+
+    @PatchMapping("/agregarLike/{id}")
+    public ResponseEntity agregarLike(@PathVariable(value = "id") Long id){
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
+
+            ServiceResponse serviceResponsePelicula = peliculaService.obtenerPeliculaPorId(id);
+
+            if(!serviceResponsePelicula.getStatus()){
+                return ResponseEntity.status(400).body("Pelicula no encontrada");
+            }
+
+            ServiceResponse serviceResponse = peliculaService.addLike((Pelicula) serviceResponsePelicula.getData() ,usuario);
+
+            if(!serviceResponse.getStatus()){
+                return ResponseEntity.status(400).body(serviceResponse.getMessage());
+            }
+
+            return ResponseEntity.ok(serviceResponse.getData());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
     }
 }

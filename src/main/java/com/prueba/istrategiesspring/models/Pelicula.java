@@ -40,6 +40,9 @@ public class Pelicula {
     @OneToMany(targetEntity = RegistroActualizacionesPelicula.class, mappedBy = "pelicula", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RegistroActualizacionesPelicula> registroActualizaciones;
 
+    @ManyToMany(mappedBy = "peliculasGustadas")
+    private List<Usuario> meGustas;
+
     public Pelicula() { }
 
     public Pelicula(String titulo, String descripcion, String imagen, int stockAlquiler, int stockCompra, Float precioAlquiler, Float precioCompra, boolean disponible) {
@@ -142,5 +145,13 @@ public class Pelicula {
 
     public void setCompras(List<Compra> compras) {
         this.compras = compras;
+    }
+
+    public List<Usuario> getMeGustas() {
+        return meGustas;
+    }
+
+    public void setMeGustas(List<Usuario> meGustas) {
+        this.meGustas = meGustas;
     }
 }
