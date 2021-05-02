@@ -2,6 +2,7 @@ package com.prueba.istrategiesspring.services;
 
 import com.prueba.istrategiesspring.dao.AlquilerDAO;
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
+import com.prueba.istrategiesspring.dto.AlquilerDTO;
 import com.prueba.istrategiesspring.models.Alquiler;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
@@ -76,6 +77,20 @@ public class AlquierService {
             }
 
             return new ServiceResponse(true, "Ok", alquilerList);
+        } catch (Exception e) {
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ServiceResponse registroAlquiler(){
+        try {
+            /*List<Object> alquiler= alquilerDAO.registroAlquiler();
+
+            if(alquiler.isEmpty()){
+                return new ServiceResponse(false, "No se encontraron resultados", null);
+            }*/
+
+            return new ServiceResponse(true, "Ok", "xd");
         } catch (Exception e) {
             return new ServiceResponse(false, e.getMessage(), null);
         }

@@ -39,4 +39,20 @@ public class AlquilerController {
             return ResponseEntity.status(400).body(e.getMessage()); // 7 9
         }
     }
+
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/registro")
+    public ResponseEntity registroAlquiler(){
+        try {
+            ServiceResponse serviceResponse = alquierService.registroAlquiler();
+
+            if(!serviceResponse.getStatus()){
+                return ResponseEntity.status(400).body(serviceResponse.getMessage());
+            }
+
+            return ResponseEntity.ok(serviceResponse.getData());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
