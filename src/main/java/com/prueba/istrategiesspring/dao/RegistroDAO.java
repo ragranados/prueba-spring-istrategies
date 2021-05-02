@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 
-public interface RegistroAlquilerDAO extends JpaRepository<Registro, Long> {
+public interface RegistroDAO extends JpaRepository<Registro, Long> {
 
     @Query("FROM Registro WHERE tipo = ?1 ORDER BY fecha DESC")
     List<Registro> encontrarPorTipo(@Param("tipo") String tipo);

@@ -29,7 +29,7 @@ public class TransaccionService {
     private AlquilerDAO alquilerDAO;
 
     @Autowired
-    private RegistroAlquilerDAO registroAlquilerDAO;
+    private RegistroDAO registroDAO;
 
     private void registroAlquiler(LocalDate fecha, List<Long> alquiler, List<Long> compra,Transaccion transaccion, Usuario usuario){
         if(!alquiler.isEmpty()){
@@ -41,7 +41,7 @@ public class TransaccionService {
             registro.setNumeroPeliculas(alquiler.size());
             registro.setTipo("alquiler");
 
-            registroAlquilerDAO.save(registro);
+            registroDAO.save(registro);
         }
 
         if(!compra.isEmpty()){
@@ -53,7 +53,7 @@ public class TransaccionService {
             registro1.setNumeroPeliculas(compra.size());
             registro1.setTipo("compra");
 
-            registroAlquilerDAO.save(registro1);
+            registroDAO.save(registro1);
         }
 
     }

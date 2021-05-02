@@ -2,7 +2,7 @@ package com.prueba.istrategiesspring.services;
 
 import com.prueba.istrategiesspring.dao.AlquilerDAO;
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
-import com.prueba.istrategiesspring.dao.RegistroAlquilerDAO;
+import com.prueba.istrategiesspring.dao.RegistroDAO;
 import com.prueba.istrategiesspring.models.Alquiler;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Registro;
@@ -26,7 +26,7 @@ public class AlquierService {
     private AlquilerDAO alquilerDAO;
 
     @Autowired
-    private RegistroAlquilerDAO registroAlquilerDAO;
+    private RegistroDAO registroDAO;
 
     private Float calcularRecargo(List<Alquiler> alquiler) {
         Float montoPorDia = 3.0f;
@@ -88,7 +88,7 @@ public class AlquierService {
 
     public ServiceResponse registroAlquiler(){
         try {
-            List<Registro> registroList = registroAlquilerDAO.encontrarPorTipo("alquiler");
+            List<Registro> registroList = registroDAO.encontrarPorTipo("alquiler");
 
             if(registroList.isEmpty()){
                 return new ServiceResponse(false, "No se encontraron resultados", null);
