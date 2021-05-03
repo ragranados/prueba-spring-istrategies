@@ -12,6 +12,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
+class LikesComparator implements Comparator<Pelicula> {
+    @Override
+    public int compare(Pelicula o1, Pelicula o2) {
+        return o2.getMeGustas().size() - o1.getMeGustas().size();
+    }
+}
+
 @RestController
 @RequestMapping("/peliculas")
 public class PeliculaController {
@@ -40,7 +49,33 @@ public class PeliculaController {
     @GetMapping("/disponibles")
     public ResponseEntity disponibles(){
         try {
-            ServiceResponse serviceResponse = peliculaService.obtenerPeliculasDisponibles();
+            ServiceResponse serviceResponse = peliculaService.obtenerPeliculasFiltro(true);
+
+            if(!serviceResponse.getStatus()){
+                return ResponseEntity.status(400).body(serviceResponse.getMessage());
+            }
+
+            return  ResponseEntity.ok(serviceResponse.getData());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/todas")
+    public ResponseEntity obtenerTodas(@RequestParam Optional<Boolean> disponible, Optional<Boolean> ordenarLikes){
+        try {
+            ServiceResponse serviceResponse;
+
+            if(!disponible.isPresent()){
+                serviceResponse = peliculaService.obtenerPeliculas();
+            }else{
+                serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible.get());
+            }
+
+            if(ordenarLikes.isPresent() && ordenarLikes.get()){
+                Collections.sort((List<Pelicula>) serviceResponse.getData(), new LikesComparator());
+            }
 
             if(!serviceResponse.getStatus()){
                 return ResponseEntity.status(400).body(serviceResponse.getMessage());

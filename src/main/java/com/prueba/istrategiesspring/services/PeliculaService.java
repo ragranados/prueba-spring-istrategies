@@ -16,12 +16,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-class LikesComparator implements Comparator<Pelicula>{
+/*class LikesComparator implements Comparator<Pelicula>{
     @Override
     public int compare(Pelicula o1, Pelicula o2) {
-        return o1.getMeGustas().size() - o2.getMeGustas().size();
+        return o2.getMeGustas().size() - o1.getMeGustas().size();
     }
-}
+}*/
 
 @Service
 public class PeliculaService {
@@ -51,9 +51,7 @@ public class PeliculaService {
 
     public ServiceResponse obtenerPeliculas(){
         try {
-            List<Pelicula> peliculas = peliculaDAO.findAll();
-
-            Collections.sort(peliculas, new LikesComparator());
+            List<Pelicula> peliculas = peliculaDAO.findAllOrderByTitulo();
 
             if(peliculas.isEmpty()){
                 return new ServiceResponse(false, "No se obtuvieron resultados", peliculas);
@@ -65,9 +63,9 @@ public class PeliculaService {
         }
     }
 
-    public ServiceResponse obtenerPeliculasDisponibles(){
+    public ServiceResponse obtenerPeliculasFiltro(Boolean disponible){
         try {
-            List<Pelicula> peliculas = peliculaDAO.disponibles();
+            List<Pelicula> peliculas = peliculaDAO.disponibles(disponible);
 
             if(peliculas.isEmpty()){
                 return new ServiceResponse(false, "No se obtuvieron resultados", peliculas);
