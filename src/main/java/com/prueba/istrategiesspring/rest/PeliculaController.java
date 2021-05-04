@@ -61,6 +61,21 @@ public class PeliculaController {
         }
     }
 
+    @GetMapping("/buscar")
+    public ResponseEntity obtenerPorNombre(@RequestParam String nombre){
+        try {
+            ServiceResponse serviceResponse = peliculaService.obtenerPeliculaPorNombre(nombre);
+
+            if(!serviceResponse.getStatus()){
+                return ResponseEntity.status(400).body(serviceResponse.getMessage());
+            }
+
+            return ResponseEntity.ok(serviceResponse.getData());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/todas")
     public ResponseEntity obtenerTodas(@RequestParam Optional<Boolean> disponible, Optional<Boolean> ordenarLikes){

@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface PeliculaDAO extends JpaRepository<Pelicula, Long> {
 
-    @Query("FROM Pelicula WHERE titulo like '%?1%' order by titulo")
-    List<Pelicula> findByTitulo (@Param("titulo") String titulo);
+    @Query("FROM Pelicula WHERE titulo like CONCAT('%', ?1, '%') GROUP BY titulo")
+    List<Pelicula> findByTitulo(@Param("titulo") String titulo);
 
     @Query("FROM Pelicula WHERE disponible = ?1 ORDER BY titulo")
     List<Pelicula> disponibles(@Param("disponible") Boolean disponible);

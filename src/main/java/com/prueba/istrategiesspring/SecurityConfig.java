@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().authorizeRequests().antMatchers("/auth/registrar", "/auth/login","/roles/listar","/inicializar").permitAll()
+        http.csrf().disable().authorizeRequests().antMatchers("/peliculas/disponibles","/peliculas/buscar","/auth/registrar", "/auth/login","/roles/listar","/inicializar").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

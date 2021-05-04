@@ -108,6 +108,7 @@ public class PeliculaService {
 
     public ServiceResponse obtenerPeliculaPorNombre(String titulo){
         try {
+            System.out.println(titulo);
             List<Pelicula> peliculas = peliculaDAO.findByTitulo(titulo);
 
             if(peliculas.isEmpty()){
