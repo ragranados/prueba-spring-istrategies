@@ -2,6 +2,7 @@ package com.prueba.istrategiesspring.rest;
 
 import com.prueba.istrategiesspring.EmailServiceImpl;
 import com.prueba.istrategiesspring.models.LoginForm;
+import com.prueba.istrategiesspring.models.Role;
 import com.prueba.istrategiesspring.models.TokenActivacion;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.LoginResponse;
@@ -58,6 +59,10 @@ public class Auth {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
+
+        Role role = new Role(2l, "Usuario");
+
+        usuario.setRole(role);
 
         ServiceResponse nUsuario = usuarioService.registrarUsuario(usuario);
 
