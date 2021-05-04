@@ -65,13 +65,13 @@ public class Auth {
             return ResponseEntity.status(404).body(nUsuario.getMessage());
         }
 
-        TokenActivacion tokenActivacion = (TokenActivacion) nUsuario.getData();
+        //TokenActivacion tokenActivacion = (TokenActivacion) nUsuario.getData();
 
-        emailService.emailActivarCuenta(
+        /*emailService.emailActivarCuenta(
                 usuario.getEmail(),
                 "Activacion cuenta",
                 tokenActivacion.getToken()
-        );
+        );*/
 
         return ResponseEntity.ok("Usuario registrado con exito");
     }

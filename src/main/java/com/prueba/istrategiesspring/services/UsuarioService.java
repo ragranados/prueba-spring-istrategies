@@ -21,9 +21,9 @@ public class UsuarioService {
         try {
             Usuario nuevoUsuario = usuarioDTO.save(usuario);
 
-            ServiceResponse token = tokenActivacionService.crearToken(nuevoUsuario);
+            //ServiceResponse token = tokenActivacionService.crearToken(nuevoUsuario);
 
-            return new ServiceResponse(true, "Usuario insertado con exito", token.getData());
+            return new ServiceResponse(true, "Usuario insertado con exito", nuevoUsuario);
         }catch (Exception e){
             return new ServiceResponse(false, e.getMessage(), null);
         }
