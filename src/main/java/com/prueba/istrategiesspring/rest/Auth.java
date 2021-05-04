@@ -53,6 +53,7 @@ public class Auth {
 
     @PostMapping("/registrar")
     public ResponseEntity<?> register(@RequestBody Usuario usuario){
+        usuario.setEmail(usuario.getEmail().toLowerCase());
         ServiceResponse exist = usuarioService.encontrarPorEmail(usuario.getEmail());
 
         if(exist.getStatus()){
@@ -86,6 +87,7 @@ public class Auth {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm){
+        loginForm.setEmail(loginForm.getEmail().toLowerCase());
 
         ServiceResponse serviceResponse = usuarioService.encontrarPorEmail(loginForm.getEmail());
 
