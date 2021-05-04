@@ -5,8 +5,10 @@ import com.prueba.istrategiesspring.models.LoginForm;
 import com.prueba.istrategiesspring.models.Role;
 import com.prueba.istrategiesspring.models.TokenActivacion;
 import com.prueba.istrategiesspring.models.Usuario;
+import com.prueba.istrategiesspring.requests.ChangeRoleRequest;
 import com.prueba.istrategiesspring.responses.LoginResponse;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
+import com.prueba.istrategiesspring.services.RoleService;
 import com.prueba.istrategiesspring.services.TokenActivacionService;
 import com.prueba.istrategiesspring.services.UserDetailService;
 import com.prueba.istrategiesspring.services.UsuarioService;
@@ -15,14 +17,12 @@ import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -32,6 +32,9 @@ public class Auth {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private AuthenticationManager authenticactionManager;
@@ -114,5 +117,32 @@ public class Auth {
         hashMap.put("user", serviceResponse.getData());
 
         return ResponseEntity.ok(hashMap);*/
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @PatchMapping("/cambiarRol") ResponseEntity modificarUsuario (@RequestBody ChangeRoleRequest changeRoleRequest){
+        try {
+            ServiceResponse serviceResponseRole = roleService.obtenerRolePorId(changeRoleRequest.getNuevoRolId());
+
+            if(!serviceResponseRole.getStatus()){
+                return ResponseEntity.status(400).body("Rol no encontrado");
+            }
+
+            ServiceResponse serviceResponseUsuario = usuarioService.encontrarPorId(changeRoleRequest.getIdUsuario());
+
+            if(!serviceResponseUsuario.getStatus()){
+                return ResponseEntity.status(400).body("Usuario no encontrado");
+            }
+
+            Usuario usuario = (Usuario) serviceResponseUsuario.getData();
+
+            usuario.setRole((Role) serviceResponseRole.getData());
+
+            usuarioService.modificarUsuario(usuario);
+
+            return ResponseEntity.ok(changeRoleRequest);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UsuarioService {
 
@@ -39,6 +41,35 @@ public class UsuarioService {
 
             return new ServiceResponse(true, "Usuario encontrado con exito", usuario);
         }catch (Exception e){
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ServiceResponse encontrarPorId(Long id){
+        try {
+            Optional<Usuario> usuario = usuarioDTO.findById(id);
+
+            if(!usuario.isPresent()){
+                return new ServiceResponse(false, "Usuario no encontrado", null);
+            }
+
+            return new ServiceResponse(true, "Usuario encontrado con exito", usuario.get());
+        }catch (Exception e){
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ServiceResponse modificarUsuario (Usuario usuario){
+        try {
+            Usuario nUsuario = usuarioDTO.save(usuario);
+
+            if(nUsuario == null){
+                return new ServiceResponse(false, "No se pudo modificar", null);
+            }
+
+            return new ServiceResponse(true, "Usuario modificado con exito", nUsuario);
+
+        } catch (Exception e) {
             return new ServiceResponse(false, e.getMessage(), null);
         }
     }

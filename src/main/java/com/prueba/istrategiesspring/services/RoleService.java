@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleService {
@@ -31,6 +32,20 @@ public class RoleService {
             }
 
             return new ServiceResponse(true, "Ok    ", roles);
+        }catch (Exception e){
+            return new ServiceResponse(false, e.getMessage(), null);
+        }
+    }
+
+    public ServiceResponse obtenerRolePorId(Long id){
+        try {
+            Optional<Role> role = roleDTO.findById(id);
+
+            if(!role.isPresent()){
+                return new ServiceResponse(false, "No se obtuvieron resultados", null);
+            }
+
+            return new ServiceResponse(true, "Ok    ", role.get());
         }catch (Exception e){
             return new ServiceResponse(false, e.getMessage(), null);
         }
