@@ -1,9 +1,12 @@
 package com.prueba.istrategiesspring.rest;
 
+import com.prueba.istrategiesspring.EmailServiceImpl;
 import com.prueba.istrategiesspring.models.LoginForm;
+import com.prueba.istrategiesspring.models.TokenActivacion;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.LoginResponse;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
+import com.prueba.istrategiesspring.services.TokenActivacionService;
 import com.prueba.istrategiesspring.services.UserDetailService;
 import com.prueba.istrategiesspring.services.UsuarioService;
 import com.prueba.istrategiesspring.utils.JwtUtil;
@@ -36,6 +39,12 @@ public class Auth {
     private UserDetailService userDetailService;
 
     @Autowired
+    private TokenActivacionService tokenActivacionService;
+
+    @Autowired
+    EmailServiceImpl emailService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping("/registrar")
@@ -55,6 +64,14 @@ public class Auth {
         if(!nUsuario.getStatus()){
             return ResponseEntity.status(404).body(nUsuario.getMessage());
         }
+
+        TokenActivacion tokenActivacion = (TokenActivacion) nUsuario.getData();
+
+        emailService.emailActivarCuenta(
+                usuario.getEmail(),
+                "Activacion cuenta",
+                tokenActivacion.getToken()
+        );
 
         return ResponseEntity.ok("Usuario registrado con exito");
     }
