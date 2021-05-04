@@ -7,5 +7,5 @@ Esta ruta carga los datos iniciales a la base de datos.
 (Esta ruta tambien puede ser usada para despertar el servidor de Heroku, ya que solo los inserta una vez, aunque se llame repetidas veces).
 
 Usuario administrador creado por defecto:
-email: admin@correo.com
+email: admin@correo.com  
 password: pass123
