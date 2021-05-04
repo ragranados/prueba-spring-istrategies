@@ -8,4 +8,5 @@ Esta ruta carga los datos iniciales a la base de datos: https://spring-peliculas
 
 Usuario administrador creado por defecto:  
 email: admin@correo.com  
-password: pass123
+password: pass123  
+Java: 11
