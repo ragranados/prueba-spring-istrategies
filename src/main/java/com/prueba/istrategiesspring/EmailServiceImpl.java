@@ -11,6 +11,7 @@ public class EmailServiceImpl {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    //prueba
     public void emailActivarCuenta(String destinatario, String tema, String texto){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("noreplay@spring.com");
