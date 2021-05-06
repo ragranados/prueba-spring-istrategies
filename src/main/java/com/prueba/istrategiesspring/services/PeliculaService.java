@@ -27,6 +27,7 @@ import java.util.Optional;
 }*/
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class PeliculaService {
 
     @Autowired
@@ -139,7 +140,6 @@ public class PeliculaService {
 
     }
 
-    @Transactional
     public ServiceResponse actualizarPelicula(Pelicula nPelicula) {
 
         Optional<Pelicula> pelicula = peliculaDAO.findById(nPelicula.getId());
