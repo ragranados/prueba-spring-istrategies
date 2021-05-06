@@ -32,136 +32,112 @@ public class PeliculaController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/guardar")
-    public ResponseEntity guardar(@RequestBody Pelicula pelicula){
-        try {
-            ServiceResponse serviceResponse = peliculaService.crearPelicula(pelicula);
+    public ResponseEntity guardar(@RequestBody Pelicula pelicula) {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = peliculaService.crearPelicula(pelicula);
 
-            return ResponseEntity.ok("Pelicula registrada con exito");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+        return ResponseEntity.ok("Pelicula registrada con exito");
     }
 
     @GetMapping("/disponibles")
-    public ResponseEntity disponibles(){
-        try {
-            ServiceResponse serviceResponse = peliculaService.obtenerPeliculasFiltro(true);
+    public ResponseEntity disponibles() {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = peliculaService.obtenerPeliculasFiltro(true);
 
-            return  ResponseEntity.ok(serviceResponse.getData());
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
         }
+
+        return ResponseEntity.ok(serviceResponse.getData());
+
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity obtenerPorNombre(@RequestParam String nombre){
-        try {
-            ServiceResponse serviceResponse = peliculaService.obtenerPeliculaPorNombre(nombre);
+    public ResponseEntity obtenerPorNombre(@RequestParam String nombre) {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = peliculaService.obtenerPeliculaPorNombre(nombre);
 
-            return ResponseEntity.ok(serviceResponse.getData());
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
         }
+
+        return ResponseEntity.ok(serviceResponse.getData());
+
     }
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/todas")
-    public ResponseEntity obtenerTodas(@RequestParam Optional<Boolean> disponible, Optional<Boolean> ordenarLikes){
-        try {
-            ServiceResponse serviceResponse;
+    public ResponseEntity obtenerTodas(@RequestParam Optional<Boolean> disponible, Optional<Boolean> ordenarLikes) {
 
-            if(!disponible.isPresent()){
-                serviceResponse = peliculaService.obtenerPeliculas();
-            }else{
-                serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible.get());
-            }
+        ServiceResponse serviceResponse;
 
-            if(ordenarLikes.isPresent() && ordenarLikes.get()){
-                Collections.sort((List<Pelicula>) serviceResponse.getData(), new LikesComparator());
-            }
-
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
-
-            return  ResponseEntity.ok(serviceResponse.getData());
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!disponible.isPresent()) {
+            serviceResponse = peliculaService.obtenerPeliculas();
+        } else {
+            serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible.get());
         }
+
+        if (ordenarLikes.isPresent() && ordenarLikes.get()) {
+            Collections.sort((List<Pelicula>) serviceResponse.getData(), new LikesComparator());
+        }
+
+        return ResponseEntity.ok(serviceResponse.getData());
+
     }
 
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/actualizar")
-    public ResponseEntity actualizar(@RequestBody Pelicula pelicula){
-        try {
-            ServiceResponse serviceResponse = peliculaService.actualizarPelicula(pelicula);
+    public ResponseEntity actualizar(@RequestBody Pelicula pelicula) {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = peliculaService.actualizarPelicula(pelicula);
 
-            return ResponseEntity.ok("Datos actualizados con exito");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
         }
+
+        return ResponseEntity.ok("Datos actualizados con exito");
+
     }
 
     @Secured({"ROLE_ADMIN"})
     @PatchMapping("/cambiarDisponibilidad/{id}")
-    public ResponseEntity cambiarDisponibilidad(@PathVariable(value = "id") Long id, @RequestBody boolean disponibilidad){
-        try {
-            ServiceResponse pelicula = peliculaService.obtenerPeliculaPorId(id);
+    public ResponseEntity cambiarDisponibilidad(@PathVariable(value = "id") Long id, @RequestBody boolean disponibilidad) {
 
-            if(!pelicula.getStatus()){
-                return ResponseEntity.status(400).body(pelicula.getMessage());
-            }
+        ServiceResponse pelicula = peliculaService.obtenerPeliculaPorId(id);
 
-            ServiceResponse serviceResponse = peliculaService.cambiarDisponibilidad((Pelicula) pelicula.getData(), disponibilidad);
-
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
-
-            return ResponseEntity.ok("Cambios realizados con exito");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!pelicula.getStatus()) {
+            return ResponseEntity.status(400).body(pelicula.getMessage());
         }
+
+        ServiceResponse serviceResponse = peliculaService.cambiarDisponibilidad((Pelicula) pelicula.getData(), disponibilidad);
+
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
+        }
+
+        return ResponseEntity.ok("Cambios realizados con exito");
+
     }
 
     @PatchMapping("/agregarLike/{id}")
-    public ResponseEntity agregarLike(@PathVariable(value = "id") Long id){
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
+    public ResponseEntity agregarLike(@PathVariable(value = "id") Long id) {
 
-            ServiceResponse serviceResponsePelicula = peliculaService.obtenerPeliculaPorId(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) usuarioService.encontrarPorEmail(authentication.getName()).getData();
 
-            if(!serviceResponsePelicula.getStatus()){
-                return ResponseEntity.status(400).body("Pelicula no encontrada");
-            }
+        ServiceResponse serviceResponsePelicula = peliculaService.obtenerPeliculaPorId(id);
 
-            ServiceResponse serviceResponse = peliculaService.addLike((Pelicula) serviceResponsePelicula.getData() ,usuario);
-
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
-
-            return ResponseEntity.ok(serviceResponse.getData());
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponsePelicula.getStatus()) {
+            return ResponseEntity.status(400).body("Pelicula no encontrada");
         }
+
+        ServiceResponse serviceResponse = peliculaService.addLike((Pelicula) serviceResponsePelicula.getData(), usuario);
+
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
+        }
+
+        return ResponseEntity.ok(serviceResponse.getData());
 
     }
 }

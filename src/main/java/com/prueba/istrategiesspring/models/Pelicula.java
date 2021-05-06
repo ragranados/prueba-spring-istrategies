@@ -14,7 +14,7 @@ public class Pelicula {
     @GeneratedValue
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String titulo;
 
     @Column
