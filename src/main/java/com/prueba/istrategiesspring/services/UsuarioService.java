@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+
+@Transactional(rollbackFor = Exception.class)
 public class UsuarioService {
 
     @Autowired
@@ -18,7 +20,6 @@ public class UsuarioService {
     @Autowired
     TokenActivacionService tokenActivacionService;
 
-    @Transactional
     public ServiceResponse registrarUsuario(Usuario usuario){
         try {
             Usuario nuevoUsuario = usuarioDTO.save(usuario);
