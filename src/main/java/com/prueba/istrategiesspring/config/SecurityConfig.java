@@ -1,4 +1,4 @@
-package com.prueba.istrategiesspring;
+package com.prueba.istrategiesspring.config;
 
 import com.prueba.istrategiesspring.filters.JwtRequestFilter;
 import com.prueba.istrategiesspring.services.UserDetailService;
