@@ -1,6 +1,8 @@
 package com.prueba.istrategiesspring.services;
 
+import com.prueba.istrategiesspring.constants.ExceptionsLabels;
 import com.prueba.istrategiesspring.dao.*;
+import com.prueba.istrategiesspring.exceptions.NotFoundException;
 import com.prueba.istrategiesspring.models.*;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class TransaccionService {
 
     @Autowired
@@ -104,7 +107,6 @@ public class TransaccionService {
         }
     }
 
-    @Transactional
     public ServiceResponse crearTransaccion(Usuario usuario, List<Long> compras, List<Long> alquiler) {
         try {
             validarStock(compras, alquiler);
@@ -165,12 +167,12 @@ public class TransaccionService {
             List<Transaccion> transacciones = transaccionDAO.findByIdUsuario(id);
 
             if (transacciones.isEmpty()) {
-                return new ServiceResponse(false, "No se encontraron resultados", null);
+                throw  new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
             }
 
             return new ServiceResponse(true, "Ok", transacciones);
         } catch (Exception e) {
-            return new ServiceResponse(false, e.getMessage(), null);
+            throw e;
         }
     }
 
