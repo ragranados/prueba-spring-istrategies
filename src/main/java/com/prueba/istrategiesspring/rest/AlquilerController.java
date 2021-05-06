@@ -23,36 +23,31 @@ public class AlquilerController {
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/devolver")
     public ResponseEntity devolverAlquiler(@RequestBody DevolucionRequest devolucionRequest) {
-        try {
-            List<Alquiler> alquilerList = (List<Alquiler>) alquierService.encontrarMultiples(devolucionRequest.getAlquiler()).getData();
 
-            ServiceResponse serviceResponse = alquierService.devolucionPelicula(alquilerList);
+        List<Alquiler> alquilerList = (List<Alquiler>) alquierService.encontrarMultiples(devolucionRequest.getAlquiler()).getData();
 
-            if (!serviceResponse.getStatus()) {
-                return ResponseEntity.status(400).body("Error");
-            }
+        ServiceResponse serviceResponse = alquierService.devolucionPelicula(alquilerList);
 
-            HashMap<String, Float> map= new HashMap<>();
-            map.put("recargo",(Float) serviceResponse.getData());
-            return ResponseEntity.ok(map);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage()); // 7 9
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body("Error");
         }
+
+        HashMap<String, Float> map = new HashMap<>();
+        map.put("recargo", (Float) serviceResponse.getData());
+        return ResponseEntity.ok(map);
+
     }
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/registro")
-    public ResponseEntity registroAlquiler(){
-        try {
-            ServiceResponse serviceResponse = alquierService.registroAlquiler();
+    public ResponseEntity registroAlquiler() {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = alquierService.registroAlquiler();
 
-            return ResponseEntity.ok(serviceResponse.getData());
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
         }
+
+        return ResponseEntity.ok(serviceResponse.getData());
     }
 }

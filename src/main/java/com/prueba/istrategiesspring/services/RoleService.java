@@ -1,6 +1,8 @@
 package com.prueba.istrategiesspring.services;
 
+import com.prueba.istrategiesspring.constants.ExceptionsLabels;
 import com.prueba.istrategiesspring.dao.RoleDAO;
+import com.prueba.istrategiesspring.exceptions.NotFoundException;
 import com.prueba.istrategiesspring.models.Role;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,40 +16,34 @@ public class RoleService {
     @Autowired
     private RoleDAO roleDTO;
 
-    public ServiceResponse crearRole(Role role){
-        try{
-            Role newRole = roleDTO.save(role);
-            return new ServiceResponse (true, "Ok", newRole);
-        }catch(Exception e){
-            return new ServiceResponse(false, e.getMessage(), null);
-        }
+    public ServiceResponse crearRole(Role role) {
+
+        Role newRole = roleDTO.save(role);
+        return new ServiceResponse(true, "Ok", newRole);
+
     }
 
-    public ServiceResponse listarRoles(){
-        try {
-            List<Role> roles= roleDTO.findAll();
+    public ServiceResponse listarRoles() {
 
-            if(roles.isEmpty()){
-                return new ServiceResponse(false, "No se obtuvieron resultados", roles);
-            }
+        List<Role> roles = roleDTO.findAll();
 
-            return new ServiceResponse(true, "Ok    ", roles);
-        }catch (Exception e){
-            return new ServiceResponse(false, e.getMessage(), null);
+        if (roles.isEmpty()) {
+            throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
         }
+
+        return new ServiceResponse(true, "Ok    ", roles);
+
     }
 
-    public ServiceResponse obtenerRolePorId(Long id){
-        try {
-            Optional<Role> role = roleDTO.findById(id);
+    public ServiceResponse obtenerRolePorId(Long id) {
 
-            if(!role.isPresent()){
-                return new ServiceResponse(false, "No se obtuvieron resultados", null);
-            }
+        Optional<Role> role = roleDTO.findById(id);
 
-            return new ServiceResponse(true, "Ok    ", role.get());
-        }catch (Exception e){
-            return new ServiceResponse(false, e.getMessage(), null);
+        if (!role.isPresent()) {
+            throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
         }
+
+        return new ServiceResponse(true, "Ok    ", role.get());
+
     }
 }

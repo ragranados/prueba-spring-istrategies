@@ -1,8 +1,10 @@
 package com.prueba.istrategiesspring.services;
 
+import com.prueba.istrategiesspring.constants.ExceptionsLabels;
 import com.prueba.istrategiesspring.dao.AlquilerDAO;
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
 import com.prueba.istrategiesspring.dao.RegistroDAO;
+import com.prueba.istrategiesspring.exceptions.NotFoundException;
 import com.prueba.istrategiesspring.models.Alquiler;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Registro;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class AlquierService {
 
     @Autowired
@@ -37,7 +40,7 @@ public class AlquierService {
         for (int i = 0; i < alquiler.size(); i++) {
             LocalDate devolucion = alquiler.get(i).getFechaDevolucion();
 
-            if(ChronoUnit.DAYS.between(devolucion, hoy) > 0){
+            if (ChronoUnit.DAYS.between(devolucion, hoy) > 0) {
                 recargo += ChronoUnit.DAYS.between(devolucion, hoy) * montoPorDia;
                 System.out.println("Dias " + ChronoUnit.DAYS.between(devolucion, hoy) + " Fecha devolucion: " + alquiler.get(i).getFechaDevolucion());
             }
@@ -47,7 +50,6 @@ public class AlquierService {
         return recargo;
     }
 
-    @Transactional
     public ServiceResponse devolucionPelicula(List<Alquiler> alquiler) {
         try {
             for (int i = 0; i < alquiler.size(); i++) {
@@ -68,35 +70,28 @@ public class AlquierService {
             return new ServiceResponse(true, "Ok", recargo);
         } catch (Exception e) {
             throw e;
-            //return new ServiceResponse(false, e.getMessage(), null);
         }
     }
 
     public ServiceResponse encontrarMultiples(List<Long> alquier) {
-        try {
-            List<Alquiler> alquilerList = alquilerDAO.findAllById(alquier);
 
-            if (alquilerList.isEmpty()) {
-                return new ServiceResponse(false, "No se obtuvieron resultados", null);
-            }
+        List<Alquiler> alquilerList = alquilerDAO.findAllById(alquier);
 
-            return new ServiceResponse(true, "Ok", alquilerList);
-        } catch (Exception e) {
-            return new ServiceResponse(false, e.getMessage(), null);
+        if (alquilerList.isEmpty()) {
+            throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
         }
+
+        return new ServiceResponse(true, "Ok", alquilerList);
     }
 
-    public ServiceResponse registroAlquiler(){
-        try {
-            List<Registro> registroList = registroDAO.encontrarPorTipo("alquiler");
+    public ServiceResponse registroAlquiler() {
 
-            if(registroList.isEmpty()){
-                return new ServiceResponse(false, "No se encontraron resultados", null);
-            }
+        List<Registro> registroList = registroDAO.encontrarPorTipo("alquiler");
 
-            return new ServiceResponse(true, "Ok", registroList);
-        } catch (Exception e) {
-            return new ServiceResponse(false, e.getMessage(), null);
+        if (registroList.isEmpty()) {
+            throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
         }
+
+        return new ServiceResponse(true, "Ok", registroList);
     }
 }

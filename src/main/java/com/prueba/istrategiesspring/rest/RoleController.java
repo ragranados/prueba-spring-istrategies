@@ -17,32 +17,28 @@ public class RoleController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/guardar")
-    public ResponseEntity<?> guardar(@RequestBody Role role){
-        try{
-            ServiceResponse serviceResponse = roleService.crearRole(role);
+    public ResponseEntity<?> guardar(@RequestBody Role role) {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = roleService.crearRole(role);
 
-            return  ResponseEntity.ok(serviceResponse.getData());
-        }catch (Exception e){
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
         }
+
+        return ResponseEntity.ok(serviceResponse.getData());
+
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<?> listar(){
-        try{
-            ServiceResponse serviceResponse = roleService.listarRoles();
+    public ResponseEntity<?> listar() {
 
-            if(!serviceResponse.getStatus()){
-                return ResponseEntity.status(400).body(serviceResponse.getMessage());
-            }
+        ServiceResponse serviceResponse = roleService.listarRoles();
 
-            return  ResponseEntity.ok(serviceResponse.getData());
-        }catch(Exception e){
-            return ResponseEntity.status(400).body(e.getMessage());
+        if (!serviceResponse.getStatus()) {
+            return ResponseEntity.status(400).body(serviceResponse.getMessage());
         }
+
+        return ResponseEntity.ok(serviceResponse.getData());
+
     }
 }
