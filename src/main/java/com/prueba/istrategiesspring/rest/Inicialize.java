@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 @RestController
 public class Inicialize {
     @Autowired
@@ -53,8 +55,8 @@ public class Inicialize {
                     "URL imagen",
                     10,
                     10,
-                    2.50f,
-                    20.00f,
+                    new BigDecimal("2.5"),
+                    new BigDecimal("20"),
                     true
             );
 
@@ -64,8 +66,8 @@ public class Inicialize {
                     "URL imagen",
                     10,
                     10,
-                    2.50f,
-                    20.00f,
+                    new BigDecimal("2.5"),
+                    new BigDecimal("20"),
                     true
             );
 

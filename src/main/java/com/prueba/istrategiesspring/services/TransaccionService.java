@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,18 +59,22 @@ public class TransaccionService {
 
     }
 
-    private Float calcularTotal(List<Pelicula> compras, List<Pelicula> alquiler) {
+    private BigDecimal calcularTotal(List<Pelicula> compras, List<Pelicula> alquiler) {
 
-        Float total = 0f;
+        BigDecimal total = new BigDecimal("0");
+
         for (int i = 0; i < compras.size(); i++) {
-            total += compras.get(i).getPrecioCompra();
-
+            //total += compras.get(i).getPrecioCompra();
+            total = total.add(compras.get(i).getPrecioCompra());
         }
 
         for (int i = 0; i < alquiler.size(); i++) {
-            total += alquiler.get(i).getPrecioAlquiler();
+            //total += alquiler.get(i).getPrecioAlquiler();
+            total = total.add(alquiler.get(i).getPrecioAlquiler());
 
         }
+
+        System.out.println(total);
 
         return total;
     }
@@ -110,7 +115,7 @@ public class TransaccionService {
             if (!compras.isEmpty()) peliculasCompra = peliculaDAO.findAllById(compras);
             if (!alquiler.isEmpty()) peliculasAlquiler = peliculaDAO.findAllById(alquiler);
 
-            Float total = calcularTotal(peliculasCompra, peliculasAlquiler);
+            BigDecimal total = calcularTotal(peliculasCompra, peliculasAlquiler);
             LocalDate date = LocalDate.now();
 
             Transaccion nTrsansaccion = new Transaccion();

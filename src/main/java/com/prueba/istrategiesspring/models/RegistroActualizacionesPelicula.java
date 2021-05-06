@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @JsonIgnoreProperties({"pelicula"})
 @Entity
@@ -17,19 +18,19 @@ public class RegistroActualizacionesPelicula {
     private String tituloAnterior;
 
     @Column
-    private Float precioAlquilerAnterior;
+    private BigDecimal precioAlquilerAnterior;
 
     @Column
-    private Float precioCompraAnterior;
+    private BigDecimal precioCompraAnterior;
 
     @Column
     private String titulo;
 
     @Column
-    private Float precioAlquiler;
+    private BigDecimal precioAlquiler;
 
     @Column
-    private Float precioCompra;
+    private BigDecimal precioCompra;
 
     @ManyToOne
     @JoinColumn(name="pelicula_id")
@@ -51,19 +52,19 @@ public class RegistroActualizacionesPelicula {
         this.tituloAnterior = tituloAnterior;
     }
 
-    public Float getPrecioAlquilerAnterior() {
+    public BigDecimal getPrecioAlquilerAnterior() {
         return precioAlquilerAnterior;
     }
 
-    public void setPrecioAlquilerAnterior(Float precioAlquilerAnterior) {
+    public void setPrecioAlquilerAnterior(BigDecimal precioAlquilerAnterior) {
         this.precioAlquilerAnterior = precioAlquilerAnterior;
     }
 
-    public Float getPrecioCompraAnterior() {
+    public BigDecimal getPrecioCompraAnterior() {
         return precioCompraAnterior;
     }
 
-    public void setPrecioCompraAnterior(Float precioCompraAnterior) {
+    public void setPrecioCompraAnterior(BigDecimal precioCompraAnterior) {
         this.precioCompraAnterior = precioCompraAnterior;
     }
 
@@ -75,19 +76,19 @@ public class RegistroActualizacionesPelicula {
         this.titulo = titulo;
     }
 
-    public Float getPrecioAlquiler() {
+    public BigDecimal getPrecioAlquiler() {
         return precioAlquiler;
     }
 
-    public void setPrecioAlquiler(Float precioAlquiler) {
+    public void setPrecioAlquiler(BigDecimal precioAlquiler) {
         this.precioAlquiler = precioAlquiler;
     }
 
-    public Float getPrecioCompra() {
+    public BigDecimal getPrecioCompra() {
         return precioCompra;
     }
 
-    public void setPrecioCompra(Float precioCompra) {
+    public void setPrecioCompra(BigDecimal precioCompra) {
         this.precioCompra = precioCompra;
     }
 

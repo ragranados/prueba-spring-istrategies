@@ -3,6 +3,7 @@ package com.prueba.istrategiesspring.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @JsonIgnoreProperties({"compras"})
@@ -29,10 +30,10 @@ public class Pelicula {
     private int stockCompra;
 
     @Column
-    private Float precioAlquiler;
+    private BigDecimal precioAlquiler;
 
     @Column
-    private Float precioCompra;
+    private BigDecimal precioCompra;
 
     @Column
     private boolean disponible;
@@ -45,7 +46,7 @@ public class Pelicula {
 
     public Pelicula() { }
 
-    public Pelicula(String titulo, String descripcion, String imagen, int stockAlquiler, int stockCompra, Float precioAlquiler, Float precioCompra, boolean disponible) {
+    public Pelicula(String titulo, String descripcion, String imagen, int stockAlquiler, int stockCompra, BigDecimal precioAlquiler, BigDecimal precioCompra, boolean disponible) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.imagen = imagen;
@@ -107,19 +108,19 @@ public class Pelicula {
         this.stockCompra = stockCompra;
     }
 
-    public Float getPrecioAlquiler() {
+    public BigDecimal getPrecioAlquiler() {
         return precioAlquiler;
     }
 
-    public void setPrecioAlquiler(Float precioAlquiler) {
+    public void setPrecioAlquiler(BigDecimal precioAlquiler) {
         this.precioAlquiler = precioAlquiler;
     }
 
-    public Float getPrecioCompra() {
+    public BigDecimal getPrecioCompra() {
         return precioCompra;
     }
 
-    public void setPrecioCompra(Float precioCompra) {
+    public void setPrecioCompra(BigDecimal precioCompra) {
         this.precioCompra = precioCompra;
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Transaccion {
     private Long id;
 
     @Column
-    private Float precioTotal;
+    private BigDecimal precioTotal;
 
     @Nullable
     @OneToOne(mappedBy = "transaccion")
@@ -40,11 +41,11 @@ public class Transaccion {
         this.id = id;
     }
 
-    public Float getPrecioTotal() {
+    public BigDecimal getPrecioTotal() {
         return precioTotal;
     }
 
-    public void setPrecioTotal(Float precioTotal) {
+    public void setPrecioTotal(BigDecimal precioTotal) {
         this.precioTotal = precioTotal;
     }
 
