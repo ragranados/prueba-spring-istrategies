@@ -14,18 +14,16 @@ public class CompraService {
     @Autowired
     private RegistroDAO registroDAO;
 
-    public ServiceResponse registroCompra(){
-        try {
-            List<Registro> registroList = registroDAO.encontrarPorTipo("compra");
+    public ServiceResponse registroCompra() {
 
-            if(registroList.isEmpty()){
-                return new ServiceResponse(false, "No se encontraron resultados", null);
-            }
+        List<Registro> registroList = registroDAO.encontrarPorTipo("compra");
 
-            return new ServiceResponse(true, "Ok", registroList);
-        } catch (Exception e) {
-            return new ServiceResponse(false, e.getMessage(), null);
+        if (registroList.isEmpty()) {
+            return new ServiceResponse(false, "No se encontraron resultados", null);
         }
+
+        return new ServiceResponse(true, "Ok", registroList);
+
     }
 
 }
