@@ -2,6 +2,7 @@ package com.prueba.istrategiesspring.config;
 
 import com.prueba.istrategiesspring.exceptions.BadRequestException;
 import com.prueba.istrategiesspring.exceptions.NotFoundException;
+import com.prueba.istrategiesspring.exceptions.OutOfStockException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,8 +22,13 @@ public class ExceptionHandlerConfig {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
+    @ExceptionHandler(OutOfStockException.class)
+    public ResponseEntity<?> outOfStockException(Exception e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exception(Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error desconocido");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error desconocido: " + e.getMessage());
     }
 }
