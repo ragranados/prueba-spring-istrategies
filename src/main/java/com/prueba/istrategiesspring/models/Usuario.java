@@ -3,6 +3,7 @@ package com.prueba.istrategiesspring.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 
 
-@JsonIgnoreProperties({"transacciones", "peliculasGustadas", "password"})
+@JsonIgnoreProperties({"transacciones", "peliculasGustadas"})
 @Entity
 @Setter
 @Getter
@@ -43,4 +44,13 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "pelicula_id"))
     private List<Pelicula> peliculasGustadas;
 
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
