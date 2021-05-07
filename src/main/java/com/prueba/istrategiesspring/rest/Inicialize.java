@@ -27,13 +27,12 @@ public class Inicialize {
 
     @GetMapping("/inicializar")
     public String inicializar(){
-        ServiceResponse serviceResponse = roleService.listarRoles();
-
-        if(serviceResponse.getStatus()){
-            return "Los datos ya han sido iniciliazados";
-        }
-
         try{
+
+            ServiceResponse serviceResponse = roleService.listarRoles();
+
+            return "Los datos ya han sido iniciliazados";
+        }catch (Exception e){
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             Role role1 = new Role(1l, "Admin");
             Role role2 = new Role(2l, "Usuario");
@@ -74,10 +73,9 @@ public class Inicialize {
             peliculaService.crearPelicula(pelicula);
             peliculaService.crearPelicula(pelicula2);
 
-        }catch (Exception e){
-            return "No se pudo inicializar la app";
-        }
 
-        return "Datos insertados";
+
+            return "Datos insertados";
+        }
     }
 }

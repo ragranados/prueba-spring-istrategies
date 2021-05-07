@@ -3,12 +3,14 @@ package com.prueba.istrategiesspring.config;
 import com.prueba.istrategiesspring.exceptions.BadRequestException;
 import com.prueba.istrategiesspring.exceptions.NotFoundException;
 import com.prueba.istrategiesspring.exceptions.OutOfStockException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @ControllerAdvice(annotations = RestController.class)
 public class ExceptionHandlerConfig {
 
@@ -29,6 +31,7 @@ public class ExceptionHandlerConfig {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exception(Exception e){
+        log.error("Error desconocido: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error desconocido: " + e.getMessage());
     }
 }
