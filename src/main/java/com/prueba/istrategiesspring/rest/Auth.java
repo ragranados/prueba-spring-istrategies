@@ -110,7 +110,6 @@ public class Auth {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("jwt", jwt);
-        System.out.println(jsonObject);
 
         return ResponseEntity.ok(new LoginResponse(jwt, (Usuario) serviceResponse.getData()));
 
