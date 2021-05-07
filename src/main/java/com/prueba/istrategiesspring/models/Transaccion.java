@@ -1,6 +1,8 @@
 package com.prueba.istrategiesspring.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @JsonIgnoreProperties({"usuario"})
 @Entity
+@Setter
+@Getter
 public class Transaccion {
 
     @Id
@@ -33,52 +37,4 @@ public class Transaccion {
     @Column
     private LocalDate fecha;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getPrecioTotal() {
-        return precioTotal;
-    }
-
-    public void setPrecioTotal(BigDecimal precioTotal) {
-        this.precioTotal = precioTotal;
-    }
-
-    @Nullable
-    public Compra getCompra() {
-        return compra;
-    }
-
-    public void setCompra(@Nullable Compra compra) {
-        this.compra = compra;
-    }
-
-    public List<Alquiler> getAlquiler() {
-        return alquiler;
-    }
-
-    public void setAlquiler(List<Alquiler> alquiler) {
-        this.alquiler = alquiler;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
 }

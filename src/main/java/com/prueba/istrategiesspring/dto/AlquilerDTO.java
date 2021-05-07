@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 public class AlquilerDTO {
 
-    private Long transaccion;
+   /* private Long transaccion;
     private Long usuario;
     private LocalDate fecha;
     private Long numeroPeliculas;
@@ -47,5 +47,5 @@ public class AlquilerDTO {
 
     public void setNumeroPeliculas(Long numeroPeliculas) {
         this.numeroPeliculas = numeroPeliculas;
-    }
+    }*/
 }
