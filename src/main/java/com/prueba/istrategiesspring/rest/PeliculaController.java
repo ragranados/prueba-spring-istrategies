@@ -76,23 +76,21 @@ public class PeliculaController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/todas")
-    public ResponseEntity obtenerTodas(@RequestParam Optional<Boolean> disponible, Optional<Boolean> ordenarLikes, Pageable pageable) {
+    public ResponseEntity obtenerTodas(@RequestParam(name = "disponible", defaultValue = "true") boolean disponible,
+                                       @RequestParam(name = "ordenarLikes", defaultValue = "false") boolean ordenarLikes,
+                                       Pageable pageable) {
 
         ServiceResponse serviceResponse;
 
         Sort sort = Sort.by("titulo");
 
-        if(ordenarLikes.isPresent() && ordenarLikes.get()){
+        if (ordenarLikes) {
             sort = Sort.by("meGustas").descending();
         }
 
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
-        if (!disponible.isPresent()) {
-            serviceResponse = peliculaService.obtenerPeliculas(pageableWithSort);
-        } else {
-            serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible.get(), pageableWithSort);
-        }
+        serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible, pageableWithSort);
 
         return ResponseEntity.ok(serviceResponse.getData());
 
