@@ -6,6 +6,7 @@ import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.PeliculaService;
 import com.prueba.istrategiesspring.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -43,7 +45,9 @@ public class PeliculaController {
     }
 
     @GetMapping("/disponibles")
-    public ResponseEntity disponibles(@RequestParam int page, int size) {
+    public ResponseEntity disponibles(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
 
         Pageable pageableWithSort = PageRequest.of(page, size, Sort.by("titulo"));
 
@@ -76,16 +80,18 @@ public class PeliculaController {
 
         ServiceResponse serviceResponse;
 
-        Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("titulo"));
+        Sort sort = Sort.by("titulo");
+
+        if(ordenarLikes.isPresent() && ordenarLikes.get()){
+            sort = Sort.by("meGustas").descending();
+        }
+
+        Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
         if (!disponible.isPresent()) {
             serviceResponse = peliculaService.obtenerPeliculas(pageableWithSort);
         } else {
-            serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible.get(), pageable);
-        }
-
-        if (ordenarLikes.isPresent() && ordenarLikes.get()) {
-            Collections.sort((List<Pelicula>) serviceResponse.getData(), new LikesComparator());
+            serviceResponse = peliculaService.obtenerPeliculasFiltro(disponible.get(), pageableWithSort);
         }
 
         return ResponseEntity.ok(serviceResponse.getData());
