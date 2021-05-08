@@ -10,6 +10,8 @@ import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Registro;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,9 +86,9 @@ public class AlquierService {
         return new ServiceResponse(true, "Ok", alquilerList);
     }
 
-    public ServiceResponse registroAlquiler() {
+    public ServiceResponse registroAlquiler(Pageable pageable) {
 
-        List<Registro> registroList = registroDAO.encontrarPorTipo("alquiler");
+        Page<Registro> registroList = registroDAO.findAllByTipoOrderByFecha("alquiler", pageable);
 
         if (registroList.isEmpty()) {
             throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);

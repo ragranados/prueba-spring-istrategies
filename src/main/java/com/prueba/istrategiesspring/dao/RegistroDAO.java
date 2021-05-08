@@ -1,6 +1,8 @@
 package com.prueba.istrategiesspring.dao;
 
 import com.prueba.istrategiesspring.models.Registro;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,5 +16,7 @@ public interface RegistroDAO extends JpaRepository<Registro, Long> {
 
     @Query("FROM Registro WHERE tipo = ?1 ORDER BY fecha DESC")
     List<Registro> encontrarPorTipo(@Param("tipo") String tipo);
+
+    Page<Registro> findAllByTipoOrderByFecha(String tipo ,Pageable pageable);
 
 }
