@@ -42,7 +42,8 @@ public class AlquilerController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/registro")
-    public ResponseEntity registroAlquiler(@RequestParam int size, int page) {
+    public ResponseEntity registroAlquiler(@RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "0") int page) {
 
         Pageable pageable = PageRequest.of(page, size);
 

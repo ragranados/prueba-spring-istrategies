@@ -25,12 +25,13 @@ public class CompraController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/registro")
-    public ResponseEntity registroAlquiler(@RequestParam int size, int page){
+    public ResponseEntity registroAlquiler(@RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "0") int page) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             ServiceResponse serviceResponse = compraService.registroCompra(pageable);
 
-            if(!serviceResponse.getStatus()){
+            if (!serviceResponse.getStatus()) {
                 return ResponseEntity.status(400).body(serviceResponse.getMessage());
             }
 
