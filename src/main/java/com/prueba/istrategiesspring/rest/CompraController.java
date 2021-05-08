@@ -6,6 +6,9 @@ import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.AlquierService;
 import com.prueba.istrategiesspring.services.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,10 @@ public class CompraController {
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/registro")
-    public ResponseEntity registroAlquiler(){
+    public ResponseEntity registroAlquiler(@RequestParam int size, int page){
         try {
-            ServiceResponse serviceResponse = compraService.registroCompra();
+            Pageable pageable = PageRequest.of(page, size);
+            ServiceResponse serviceResponse = compraService.registroCompra(pageable);
 
             if(!serviceResponse.getStatus()){
                 return ResponseEntity.status(400).body(serviceResponse.getMessage());
