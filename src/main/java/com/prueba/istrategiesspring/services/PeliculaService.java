@@ -11,6 +11,8 @@ import com.prueba.istrategiesspring.models.RegistroActualizacionesPelicula;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,9 +52,9 @@ public class PeliculaService {
         return new ServiceResponse(true, "Ok", nPelicula);
     }
 
-    public ServiceResponse obtenerPeliculas() {
+    public ServiceResponse obtenerPeliculas(Pageable pageable) {
 
-        List<Pelicula> peliculas = peliculaDAO.findAllOrderByTitulo();
+        Page<Pelicula> peliculas = peliculaDAO.findAll(pageable);
 
         if (peliculas.isEmpty()) {
             throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
@@ -62,9 +64,9 @@ public class PeliculaService {
 
     }
 
-    public ServiceResponse obtenerPeliculasFiltro(Boolean disponible) {
+    public ServiceResponse obtenerPeliculasFiltro(boolean disponible, Pageable pageable) {
 
-        List<Pelicula> peliculas = peliculaDAO.disponibles(disponible);
+        Page<Pelicula> peliculas = peliculaDAO.findByDisponible(disponible, pageable);
 
         if (peliculas.isEmpty()) {
             throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
