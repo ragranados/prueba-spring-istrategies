@@ -10,11 +10,13 @@ import com.prueba.istrategiesspring.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
 @RestController
+@RequestMapping("/inicializar")
 public class Inicialize {
     @Autowired
     RoleService roleService;
@@ -25,7 +27,7 @@ public class Inicialize {
     @Autowired
     UsuarioService usuarioService;
 
-    @GetMapping("/inicializar")
+    @GetMapping("/app")
     public String inicializar(){
         try{
 

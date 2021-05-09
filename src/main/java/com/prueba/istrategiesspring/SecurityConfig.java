@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/peliculas/buscar",
                 "/auth/**",
                 "/roles/listar",
-                "/inicializar").permitAll()
+                "/inicializar/app").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
