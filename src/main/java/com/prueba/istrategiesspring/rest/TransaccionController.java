@@ -32,8 +32,8 @@ public class TransaccionController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    @RequestMapping("/guardar")
+    @PostMapping("/guardar")
+    //@RequestMapping("/guardar")
     public ResponseEntity guardar(@RequestBody TransaccionRequest transaccionRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -46,8 +46,8 @@ public class TransaccionController {
 
     }
 
-    @GetMapping
-    @RequestMapping("/transacciones/me")
+    @GetMapping("/transacciones/me")
+    //@RequestMapping("/transacciones/me")
     public ResponseEntity obtenerMisTransacciones() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

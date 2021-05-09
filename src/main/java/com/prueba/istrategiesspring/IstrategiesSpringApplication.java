@@ -8,7 +8,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableTransactionManagement
-@EnableSwagger2
 public class IstrategiesSpringApplication {
 
 	public static void main(String[] args) {
