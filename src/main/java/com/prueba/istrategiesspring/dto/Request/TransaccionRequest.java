@@ -1,4 +1,4 @@
-package com.prueba.istrategiesspring.requests;
+package com.prueba.istrategiesspring.dto.Request;
 
 import com.prueba.istrategiesspring.models.Alquiler;
 import com.prueba.istrategiesspring.models.Pelicula;

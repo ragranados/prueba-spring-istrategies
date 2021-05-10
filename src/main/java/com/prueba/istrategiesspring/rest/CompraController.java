@@ -1,20 +1,13 @@
 package com.prueba.istrategiesspring.rest;
 
-import com.prueba.istrategiesspring.models.Alquiler;
-import com.prueba.istrategiesspring.requests.DevolucionRequest;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
-import com.prueba.istrategiesspring.services.AlquierService;
 import com.prueba.istrategiesspring.services.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/compra")

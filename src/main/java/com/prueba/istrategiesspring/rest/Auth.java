@@ -1,19 +1,18 @@
 package com.prueba.istrategiesspring.rest;
 
 import com.prueba.istrategiesspring.EmailServiceImpl;
-import com.prueba.istrategiesspring.models.LoginForm;
+import com.prueba.istrategiesspring.dto.Request.LoginForm;
+import com.prueba.istrategiesspring.dto.UsuarioDTO;
 import com.prueba.istrategiesspring.models.Role;
-import com.prueba.istrategiesspring.models.TokenActivacion;
 import com.prueba.istrategiesspring.models.Usuario;
-import com.prueba.istrategiesspring.requests.ChangeRoleRequest;
-import com.prueba.istrategiesspring.responses.LoginResponse;
+import com.prueba.istrategiesspring.dto.Request.ChangeRoleRequest;
+import com.prueba.istrategiesspring.dto.Response.LoginResponse;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.RoleService;
 import com.prueba.istrategiesspring.services.TokenActivacionService;
 import com.prueba.istrategiesspring.services.UserDetailService;
 import com.prueba.istrategiesspring.services.UsuarioService;
 import com.prueba.istrategiesspring.utils.JwtUtil;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 
 @RequestMapping("/auth")
 @RestController
@@ -53,7 +51,7 @@ public class Auth {
     @Autowired
     private JwtUtil jwtUtil;
 
-    ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
 
     @PostMapping("/registrar")
     public ResponseEntity<?> register(@Valid @RequestBody LoginForm loginForm){
@@ -122,7 +120,12 @@ public class Auth {
 
         jsonObject.put("jwt", jwt);
 
-        return ResponseEntity.ok(new LoginResponse(jwt, (Usuario) serviceResponse.getData()));
+        Usuario usuario = (Usuario) serviceResponse.getData();
+        System.out.println(usuario.getPassword());
+
+        UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
+
+        return ResponseEntity.ok(new LoginResponse(jwt, usuarioDTO));
 
         /*HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("jwt", jwt);

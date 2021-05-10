@@ -1,4 +1,4 @@
-package com.prueba.istrategiesspring.requests;
+package com.prueba.istrategiesspring.dto.Request;
 
 import java.util.List;
 

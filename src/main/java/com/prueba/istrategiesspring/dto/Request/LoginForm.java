@@ -1,4 +1,4 @@
-package com.prueba.istrategiesspring.models;
+package com.prueba.istrategiesspring.dto.Request;
 
 import lombok.*;
 

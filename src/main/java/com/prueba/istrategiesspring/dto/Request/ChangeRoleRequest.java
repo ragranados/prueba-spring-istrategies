@@ -1,4 +1,4 @@
-package com.prueba.istrategiesspring.requests;
+package com.prueba.istrategiesspring.dto.Request;
 
 public class ChangeRoleRequest {
     private Long idUsuario;

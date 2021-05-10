@@ -1,10 +1,9 @@
 package com.prueba.istrategiesspring.rest;
 
 import com.prueba.istrategiesspring.models.Alquiler;
-import com.prueba.istrategiesspring.requests.DevolucionRequest;
+import com.prueba.istrategiesspring.dto.Request.DevolucionRequest;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
 import com.prueba.istrategiesspring.services.AlquierService;
-import com.prueba.istrategiesspring.services.TransaccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
