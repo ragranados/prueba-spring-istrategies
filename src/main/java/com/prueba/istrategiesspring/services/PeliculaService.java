@@ -4,12 +4,14 @@ import com.prueba.istrategiesspring.constants.ExceptionsLabels;
 import com.prueba.istrategiesspring.dao.PeliculaDAO;
 import com.prueba.istrategiesspring.dao.RegistroActualizacionesPeliculaDAO;
 import com.prueba.istrategiesspring.dao.UsuarioDAO;
+import com.prueba.istrategiesspring.dto.PeliculaDTO;
 import com.prueba.istrategiesspring.exceptions.BadRequestException;
 import com.prueba.istrategiesspring.exceptions.NotFoundException;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.RegistroActualizacionesPelicula;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,9 +43,13 @@ public class PeliculaService {
     @Autowired
     private RegistroActualizacionesPeliculaDAO registroActualizacionesPeliculaDAO;
 
-    public ServiceResponse crearPelicula(Pelicula pelicula) {
+    private ModelMapper modelMapper = new ModelMapper();
 
-        Pelicula nPelicula = peliculaDAO.save(pelicula);
+    public ServiceResponse crearPelicula(PeliculaDTO pelicula) {
+
+        Pelicula mappedPelicula = modelMapper.map(peliculaDAO, Pelicula.class);
+
+        Pelicula nPelicula = peliculaDAO.save(mappedPelicula);
 
         if (pelicula == null) {
             throw new BadRequestException("No se ha podido crear la pelicula");

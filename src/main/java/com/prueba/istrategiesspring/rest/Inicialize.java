@@ -1,5 +1,6 @@
 package com.prueba.istrategiesspring.rest;
 
+import com.prueba.istrategiesspring.dto.PeliculaDTO;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Role;
 import com.prueba.istrategiesspring.models.Usuario;
@@ -50,7 +51,7 @@ public class Inicialize {
 
             usuarioService.registrarUsuario(nUsuario);
 
-            Pelicula pelicula = new Pelicula(
+            PeliculaDTO pelicula = new PeliculaDTO(
                     "El viaje de Chihiro",
                     "Chihiro se adentra en un mundo magico reinado por una bruja, donde quienes no obedecen son transformados en animales.",
                     "URL imagen",
@@ -61,7 +62,7 @@ public class Inicialize {
                     true
             );
 
-            Pelicula pelicula2 = new Pelicula(
+            PeliculaDTO pelicula2 = new PeliculaDTO(
                     "Rescatando al soldado Ryan",
                     "Ocho soldados arriesgan su vida en territorio aleman durante la Segunda Guerra Mundial para buscar a un soldado y regresarlo a casa.",
                     "URL imagen",

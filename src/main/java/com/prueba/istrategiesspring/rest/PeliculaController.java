@@ -1,5 +1,6 @@
 package com.prueba.istrategiesspring.rest;
 
+import com.prueba.istrategiesspring.dto.PeliculaDTO;
 import com.prueba.istrategiesspring.models.Pelicula;
 import com.prueba.istrategiesspring.models.Usuario;
 import com.prueba.istrategiesspring.responses.ServiceResponse;
@@ -37,9 +38,9 @@ public class PeliculaController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/guardar")
-    public ResponseEntity guardar(@RequestBody Pelicula pelicula) {
+    public ResponseEntity guardar(@RequestBody PeliculaDTO peliculaDTO) {
 
-        ServiceResponse serviceResponse = peliculaService.crearPelicula(pelicula);
+        ServiceResponse serviceResponse = peliculaService.crearPelicula(peliculaDTO);
 
         return ResponseEntity.ok("Pelicula registrada con exito");
     }
