@@ -15,6 +15,7 @@ import com.prueba.istrategiesspring.services.UsuarioService;
 import com.prueba.istrategiesspring.utils.JwtUtil;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -24,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 
 @RequestMapping("/auth")
@@ -51,9 +53,18 @@ public class Auth {
     @Autowired
     private JwtUtil jwtUtil;
 
+    ModelMapper modelMapper;
+
     @PostMapping("/registrar")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario){
-        usuario.setEmail(usuario.getEmail().toLowerCase());
+    public ResponseEntity<?> register(@Valid @RequestBody LoginForm loginForm){
+
+        System.out.println(loginForm.toString());
+
+        Usuario usuario = new Usuario();
+
+        usuario.setEmail(loginForm.getEmail());
+
+        loginForm.setEmail(usuario.getEmail().toLowerCase());
         ServiceResponse exist = usuarioService.encontrarPorEmail(usuario.getEmail());
 
         if(exist.getStatus()){
@@ -62,7 +73,7 @@ public class Auth {
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-        usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
+        usuario.setPassword(bCryptPasswordEncoder.encode(loginForm.getPassword()));
 
         Role role = new Role(2l, "Usuario");
 
@@ -86,7 +97,7 @@ public class Auth {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginForm loginForm){
+    public ResponseEntity<?> login(@Valid @RequestBody LoginForm loginForm){
         loginForm.setEmail(loginForm.getEmail().toLowerCase());
 
         ServiceResponse serviceResponse = usuarioService.encontrarPorEmail(loginForm.getEmail());
