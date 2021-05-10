@@ -72,7 +72,8 @@ public class PeliculaService {
 
     public ServiceResponse obtenerPeliculasFiltro(boolean disponible, Pageable pageable) {
 
-        Page<Pelicula> peliculas = peliculaDAO.findByDisponible(disponible, pageable);
+        Page<PeliculaDTO> peliculas = peliculaDAO.findByDisponible(disponible, pageable)
+                .map(element -> modelMapper.map(element, PeliculaDTO.class));
 
         if (peliculas.isEmpty()) {
             throw new NotFoundException(ExceptionsLabels.NOT_FOUND.frase);
