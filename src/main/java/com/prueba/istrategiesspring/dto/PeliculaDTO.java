@@ -35,7 +35,7 @@ public class PeliculaDTO {
 
     private List<RegistroActualizacionesPelicula> registroActualizaciones;
 
-    //private List<Usuario> meGustas;
+    private List<UsuarioDTO> meGustas;
 
     public PeliculaDTO(String titulo, String descripcion, String imagen, int stockAlquiler, int stockCompra, BigDecimal precioAlquiler, BigDecimal precioCompra, boolean disponible) {
         this.titulo = titulo;
