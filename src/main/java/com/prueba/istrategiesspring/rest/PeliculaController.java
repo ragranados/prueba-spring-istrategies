@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 class LikesComparator implements Comparator<Pelicula> {
@@ -38,7 +39,7 @@ public class PeliculaController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/guardar")
-    public ResponseEntity guardar(@RequestBody PeliculaDTO peliculaDTO) {
+    public ResponseEntity guardar(@Valid @RequestBody PeliculaDTO peliculaDTO) {
 
         ServiceResponse serviceResponse = peliculaService.crearPelicula(peliculaDTO);
 

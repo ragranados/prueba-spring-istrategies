@@ -47,7 +47,7 @@ public class PeliculaService {
 
     public ServiceResponse crearPelicula(PeliculaDTO pelicula) {
 
-        Pelicula mappedPelicula = modelMapper.map(peliculaDAO, Pelicula.class);
+        Pelicula mappedPelicula = modelMapper.map(pelicula, Pelicula.class);
 
         Pelicula nPelicula = peliculaDAO.save(mappedPelicula);
 
