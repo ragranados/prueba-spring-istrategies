@@ -104,13 +104,13 @@ public class Auth {
             return ResponseEntity.status(400).body("Usuario no encontrado");
         }
 
-        try{
+        /*try{
             authenticactionManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginForm.getEmail(), loginForm.getPassword())
             );
         }catch (Exception e){
             return ResponseEntity.status(400).body(e.getMessage());
-        }
+        }*/
 
         final UserDetails userDetails = userDetailService.loadUserByUsername(loginForm.getEmail());
 
